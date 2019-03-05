@@ -4,14 +4,14 @@ import 'package:fitness_fatality_flutter/widgets/workout_list_tile.dart';
 
 import 'package:flutter/material.dart';
 
-class WorkoutsPage extends StatefulWidget {
+class MyWorkoutsPage extends StatefulWidget {
   @override
-  State<WorkoutsPage> createState() {
-    return WorkoutsPageState();
+  State<MyWorkoutsPage> createState() {
+    return MyWorkoutsPageState();
   }
 }
 
-class WorkoutsPageState extends State<WorkoutsPage> {
+class MyWorkoutsPageState extends State<MyWorkoutsPage> {
   final List<Workout> _workouts = [
     Workout(name: "Workout A", type: WorkoutTypes.WEIGHTS),
     Workout(name: "Workout B", type: WorkoutTypes.WEIGHTS),

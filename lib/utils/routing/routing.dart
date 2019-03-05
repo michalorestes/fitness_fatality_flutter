@@ -1,4 +1,4 @@
-import 'package:fitness_fatality_flutter/pages/add_workout_page.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/create_new_workout/create_new_workout_page.dart';
 import 'package:flutter/material.dart';
 
 enum Routes { WORKOUTS_PAGE, ADD_NEW_WORKOUT }
@@ -15,7 +15,7 @@ class Routing {
     switch (route) {
       case Routes.ADD_NEW_WORKOUT:
         materialPageRoute = MaterialPageRoute<T>(
-          builder: (BuildContext context) => AddWorkoutPage(),
+          builder: (BuildContext context) => CreateNewWorkoutPage(),
         );
         break;
       default:

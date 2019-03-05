@@ -1,14 +1,14 @@
 import 'package:fitness_fatality_flutter/data/entities/workout.dart';
 import 'package:flutter/material.dart';
 
-class AddWorkoutPage extends StatefulWidget {
+class CreateNewWorkoutPage extends StatefulWidget {
   final Workout _createdWorkout = Workout();
 
   @override
-  State<StatefulWidget> createState() => _AddWorkoutPageState();
+  State<StatefulWidget> createState() => _CreateNewWorkoutPageState();
 }
 
-class _AddWorkoutPageState extends State<AddWorkoutPage> {
+class _CreateNewWorkoutPageState extends State<CreateNewWorkoutPage> {
   static const double _sectionPadding = 16.0;
   static const double _sectionTitleSpacing = 4.0;
 
