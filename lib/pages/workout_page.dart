@@ -1,5 +1,6 @@
 import 'package:fitness_fatality_flutter/data/entities/enums/workout_types_enum.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout.dart';
+import 'package:fitness_fatality_flutter/utils/routing/routing.dart';
 import 'package:fitness_fatality_flutter/widgets/workout_list_tile.dart';
 
 import 'package:flutter/material.dart';
@@ -26,12 +27,11 @@ class WorkoutsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final Future<String> result = Navigator
-          .pushNamed(context, '/addWorkout');
-          result.then((String value) {
-            print(value);
-          }
-          );
+          Routing
+          .navigate<String>(context, Routes.ADD_NEW_WORKOUT)
+          .then((String v){
+            print(v);
+          });
         },
         child: Icon(Icons.add),
       ),
