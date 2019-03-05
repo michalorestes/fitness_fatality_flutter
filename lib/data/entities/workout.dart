@@ -1,11 +1,17 @@
-import 'package:fitness_fatality_flutter/data/entities/enums/workout_types_enum.dart';
+class WorkoutTypes {
+  static const WEIGHTS = "Weights"; 
+  static const CARDIO = "Cardio";
+}
 
-class Workout 
-{
-  int id = -1; 
-  String name = ""; 
-  WorkoutTypes type = WorkoutTypes.Weights; 
-  List<String> schedule = [];
+class Workout {
+  int id;
+  String name;
+  String type;
+  List<String> schedule;
 
-  Workout({this.id, this.name, this.type, this.schedule});
+  Workout(
+      {this.id: -1,
+      this.name: "",
+      this.type: WorkoutTypes.WEIGHTS,
+      this.schedule: const []});
 }

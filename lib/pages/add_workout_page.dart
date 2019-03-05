@@ -1,10 +1,8 @@
-import 'package:fitness_fatality_flutter/data/entities/enums/workout_types_enum.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout.dart';
 import 'package:flutter/material.dart';
 
 class AddWorkoutPage extends StatefulWidget {
-  final Workout _createdWorkout =
-      Workout(name: "nn", type: WorkoutTypes.Weights, schedule: []);
+  final Workout _createdWorkout = Workout();
 
   @override
   State<StatefulWidget> createState() => _AddWorkoutPageState();
@@ -35,7 +33,7 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
           icon: Icon(Icons.check),
           tooltip: "Save workout",
           onPressed: () {
-            Navigator.pop<String>(context, "hello");
+            Navigator.pop<Workout>(context, widget._createdWorkout);
           },
         )
       ],
@@ -58,8 +56,7 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
 
   Widget _buildWorkoutNameSection() {
     return Padding(
-      padding:
-          const EdgeInsets.symmetric(vertical: _sectionPadding),
+      padding: const EdgeInsets.symmetric(vertical: _sectionPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -77,18 +74,18 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
   }
 
   Widget _buildWorkoutTypeSection() {
-    List<WorkoutTypes> types = [WorkoutTypes.Weights, WorkoutTypes.Cardio];
+    List<String> types = [WorkoutTypes.WEIGHTS, WorkoutTypes.CARDIO];
     List<Widget> widgets = [];
 
     widgets.add(Text("Chose workout type:"));
     widgets.add(SizedBox(height: _sectionTitleSpacing));
 
-    types.forEach((WorkoutTypes workoutType) => {
-          widgets.add(RadioListTile<WorkoutTypes>(
-            title: Text(workoutType.toString()),
+    types.forEach((String workoutType) => {
+          widgets.add(RadioListTile<String>(
+            title: Text(workoutType),
             groupValue: widget._createdWorkout.type,
             value: workoutType,
-            onChanged: (WorkoutTypes value) {
+            onChanged: (String value) {
               setState(() {
                 widget._createdWorkout.type = value;
               });
@@ -107,6 +104,7 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
   }
 
   Widget _buildDaysFilterChips() {
+    List<Widget> chips = [];
     List<String> days = [
       "Monday",
       "Tuesday",
@@ -116,7 +114,6 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
       "Saturday",
       "Sunday"
     ];
-    List<Widget> chips = [];
 
     days.forEach((v) {
       chips.add(FilterChip(
@@ -136,14 +133,15 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
     });
 
     return Padding(
-      padding:
-          const EdgeInsets.only(top: _sectionPadding, bottom: _sectionPadding),
+      padding: const EdgeInsets.only(top: _sectionPadding, bottom: _sectionPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text("Chose workout schedule:"),
           SizedBox(height: _sectionTitleSpacing),
-          Padding(padding: EdgeInsets.symmetric(vertical: 8.0), child: Wrap(spacing: 4, children: chips)),
+          Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Wrap(spacing: 4, children: chips)),
         ],
       ),
     );
