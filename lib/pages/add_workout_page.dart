@@ -35,7 +35,7 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
           icon: Icon(Icons.check),
           tooltip: "Save workout",
           onPressed: () {
-            Navigator.pop(context, widget._createdWorkout);
+            Navigator.pop<String>(context, "working yejj!!!");
           },
         )
       ],

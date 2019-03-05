@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => WorkoutsPage(),
-        '/addWorkout': (context) => AddWorkoutPage()
+        // '/addWorkout': (context) => AddWorkoutPage()
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements = settings.name.split('/');
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         }
 
         if (pathElements[1] == 'addWorkout') {
-          return MaterialPageRoute(
+          return MaterialPageRoute<String>(
             builder: (BuildContext context) => AddWorkoutPage(),
           );
         }

@@ -26,8 +26,12 @@ class WorkoutsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator
+          final Future<String> result = Navigator
           .pushNamed(context, '/addWorkout');
+          result.then((String value) {
+            print(value);
+          }
+          );
         },
         child: Icon(Icons.add),
       ),
