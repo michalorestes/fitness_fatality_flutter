@@ -2,7 +2,7 @@ import 'package:fitness_fatality_flutter/data/entities/workout.dart';
 import 'package:flutter/material.dart';
 
 class CreateNewWorkoutPage extends StatefulWidget {
-  final Workout _createdWorkout = Workout();
+  final Workout _createdWorkout = Workout(name: "", type:WorkoutTypes.WEIGHTS, schedule: []);
 
   @override
   State<StatefulWidget> createState() => _CreateNewWorkoutPageState();
