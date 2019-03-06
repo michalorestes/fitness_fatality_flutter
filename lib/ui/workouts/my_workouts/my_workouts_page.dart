@@ -1,7 +1,8 @@
 import 'package:fitness_fatality_flutter/data/entities/workout.dart';
-import 'package:fitness_fatality_flutter/utils/routing/routing.dart';
+import 'package:fitness_fatality_flutter/routing/routing.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/create_new_workout/create_new_workout_page.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/workout_details/workout_details_page.dart';
 import 'package:fitness_fatality_flutter/widgets/workout_list_tile.dart';
-
 import 'package:flutter/material.dart';
 
 class MyWorkoutsPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class MyWorkoutsPageState extends State<MyWorkoutsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Routing.navigate<Workout>(context, Routes.ADD_NEW_WORKOUT)
+          Routing.navigate<Workout>(context, CreateNewWorkoutPage())
               .then((Workout workout) {
             if (workout == null) {
               return;
@@ -63,7 +64,11 @@ class MyWorkoutsPageState extends State<MyWorkoutsPage> {
         name: workout.name,
         type: workout.type,
         icon: imageAsset,
-        onTap: () {},
+        onTap: () {
+          Routing.navigate(
+              context,
+              WorkoutDetailsPage(_workouts[index]));
+        },
         onChipTap: () {},
       ),
     );
