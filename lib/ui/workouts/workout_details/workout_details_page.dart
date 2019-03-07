@@ -48,7 +48,7 @@ class WorkoutDetailsPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            expandedHeight: 150,
+            expandedHeight: 300,
             pinned: true,
             floating: true,
             snap: true,
@@ -67,9 +67,13 @@ class WorkoutDetailsPage extends StatelessWidget {
   }
 
   Widget buildSliverListItem(BuildContext context, int index) {
+  Exercise exercise = workoutExercises[index].exercise;
+
     return Center(
       child: ListTile(
-        title: Text(workoutExercises[index].exercise.name),
+        title: Text(exercise.name),
+        subtitle: Text(workoutExercises[index].loggingParameters.toString()),
+        leading: Image.asset(exercise.getIconAsset(), height: 32, width: 32,),
       ),
     );
   }

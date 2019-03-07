@@ -1,4 +1,5 @@
 import 'package:fitness_fatality_flutter/data/entities/exercise/muscle_groups.dart';
+import 'package:flutter/material.dart';
 
 enum ExerciseType { CARDIO, BODY_WEIGHT, WEIGHTS, MACHINES }
 enum ExerciseLoggingType { TIME, REPS, DURATION }
@@ -20,4 +21,8 @@ class Exercise {
       this.isCustom,
       this.availableLoggingTypes,
       this.defaultLoggingType});
+
+  String getIconAsset() {
+    return "assets/sample_exercise_icon.png";
+  }
 }

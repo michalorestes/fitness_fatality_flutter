@@ -45,6 +45,7 @@ flutter:
    - assets/cardio_workout_icon.png
    - assets/inverval_workout_icon.png
    - assets/weights_workout_icon.png
+   - assets/sample_exercise_icon.png
   
 
   # An image asset can refer to one or more resolution-specific "variants", see
