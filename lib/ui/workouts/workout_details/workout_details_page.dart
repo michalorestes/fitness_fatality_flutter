@@ -2,6 +2,8 @@ import 'package:fitness_fatality_flutter/data/entities/exercise/exercise.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/logging_parameters/reps_logging.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
+import 'package:fitness_fatality_flutter/routing/routing.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/logging/logging_page.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutDetailsPage extends StatelessWidget {
@@ -59,11 +61,14 @@ class WorkoutDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.play_arrow),
-        backgroundColor: Colors.blue,
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text("Start!"),
+        icon: Icon(Icons.play_arrow),
+        backgroundColor: Colors.orange,
         elevation: 12,
-        onPressed: () {},
+        onPressed: () {
+          Routing.navigate(context, LoggingPage());
+        },
       ),
       body: CustomScrollView(
         slivers: <Widget>[
