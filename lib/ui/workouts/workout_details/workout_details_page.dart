@@ -1,4 +1,5 @@
 import 'package:fitness_fatality_flutter/data/entities/exercise/exercise.dart';
+import 'package:fitness_fatality_flutter/data/entities/workout/logging_parameters/reps_logging.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 import 'package:flutter/material.dart';
@@ -6,32 +7,51 @@ import 'package:flutter/material.dart';
 class WorkoutDetailsPage extends StatelessWidget {
   final Workout _workout;
 
-
   final List<WorkoutExercise> workoutExercises = [
-    WorkoutExercise(exercise: Exercise(name: "Push Ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Crunches"), workoutId: 1, loggingParameters: {"sets": 5, "reps": 6}),
-    WorkoutExercise(exercise: Exercise(name: "Press ups"), workoutId: 1, loggingParameters: {"sets": 2, "reps": 1}),
-    WorkoutExercise(exercise: Exercise(name: "Biceps curl"), workoutId: 1, loggingParameters: {"sets": 6, "reps": 20}),
-    WorkoutExercise(exercise: Exercise(name: "Pull ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Rows"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Push Ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Crunches"), workoutId: 1, loggingParameters: {"sets": 5, "reps": 6}),
-    WorkoutExercise(exercise: Exercise(name: "Press ups"), workoutId: 1, loggingParameters: {"sets": 2, "reps": 1}),
-    WorkoutExercise(exercise: Exercise(name: "Biceps curl"), workoutId: 1, loggingParameters: {"sets": 6, "reps": 20}),
-    WorkoutExercise(exercise: Exercise(name: "Pull ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Rows"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Push Ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Crunches"), workoutId: 1, loggingParameters: {"sets": 5, "reps": 6}),
-    WorkoutExercise(exercise: Exercise(name: "Press ups"), workoutId: 1, loggingParameters: {"sets": 2, "reps": 1}),
-    WorkoutExercise(exercise: Exercise(name: "Biceps curl"), workoutId: 1, loggingParameters: {"sets": 6, "reps": 20}),
-    WorkoutExercise(exercise: Exercise(name: "Pull ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Rows"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Push Ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Crunches"), workoutId: 1, loggingParameters: {"sets": 5, "reps": 6}),
-    WorkoutExercise(exercise: Exercise(name: "Press ups"), workoutId: 1, loggingParameters: {"sets": 2, "reps": 1}),
-    WorkoutExercise(exercise: Exercise(name: "Biceps curl"), workoutId: 1, loggingParameters: {"sets": 6, "reps": 20}),
-    WorkoutExercise(exercise: Exercise(name: "Pull ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
-    WorkoutExercise(exercise: Exercise(name: "Rows"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(
+        exercise: Exercise(name: "Push Ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Crunches"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Press ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Biceps curl"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Pull ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Rows"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Push Ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Crunches"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Press ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Press ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Press ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
   ];
 
   WorkoutDetailsPage(this._workout);
@@ -67,13 +87,18 @@ class WorkoutDetailsPage extends StatelessWidget {
   }
 
   Widget buildSliverListItem(BuildContext context, int index) {
-  Exercise exercise = workoutExercises[index].exercise;
+    Exercise exercise = workoutExercises[index].exercise;
 
     return Center(
       child: ListTile(
         title: Text(exercise.name),
         subtitle: Text(workoutExercises[index].loggingParameters.toString()),
-        leading: Image.asset(exercise.getIconAsset(), height: 32, width: 32,),
+        leading: Image.asset(
+          exercise.getIconAsset(),
+          height: 32,
+          width: 32,
+        ),
+        onTap: (){},
       ),
     );
   }

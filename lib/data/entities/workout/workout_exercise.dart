@@ -1,4 +1,5 @@
 import 'package:fitness_fatality_flutter/data/entities/exercise/exercise.dart';
+import 'package:fitness_fatality_flutter/data/entities/workout/logging_parameters/logging_parameters_abstract.dart';
 
 class WorkoutExercise {
   int id;
@@ -6,7 +7,7 @@ class WorkoutExercise {
   Exercise exercise;
   int sequenceId;
   ExerciseLoggingType prefferedLogging;
-  Map<String, dynamic> loggingParameters;
+  LoggingParametersAbstract loggingParameters;
 
   WorkoutExercise(
       {this.id,
