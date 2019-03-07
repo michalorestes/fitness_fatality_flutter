@@ -1,5 +1,6 @@
+//TODO: Switch to using enums once again
 class WorkoutTypes {
-  static const WEIGHTS = "Weights"; 
+  static const WEIGHTS = "Weights";
   static const CARDIO = "Cardio";
 }
 

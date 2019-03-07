@@ -1,4 +1,4 @@
-import 'package:fitness_fatality_flutter/data/entities/workout.dart';
+import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:flutter/material.dart';
 
 class CreateNewWorkoutPage extends StatefulWidget {

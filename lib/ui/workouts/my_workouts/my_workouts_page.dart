@@ -1,4 +1,4 @@
-import 'package:fitness_fatality_flutter/data/entities/workout.dart';
+import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/routing/routing.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/create_new_workout/create_new_workout_page.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/workout_details/workout_details_page.dart';

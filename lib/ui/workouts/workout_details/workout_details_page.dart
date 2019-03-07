@@ -1,51 +1,37 @@
-import 'package:fitness_fatality_flutter/data/entities/exercise.dart';
-import 'package:fitness_fatality_flutter/data/entities/workout.dart';
+import 'package:fitness_fatality_flutter/data/entities/exercise/exercise.dart';
+import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
+import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutDetailsPage extends StatelessWidget {
-  Workout _workout = Workout();
+  final Workout _workout;
 
-  final List<Exercise> exercises = [
-    Exercise(name: "Push Ups"),
-    Exercise(name: "Bench press"),
-    Exercise(name: "Pull ups"),
-    Exercise(name: "Press ups"),
-    Exercise(name: "Crunches"),
-    Exercise(name: "Sit ups"),
-    Exercise(name: "BIceps curl"),
-    Exercise(name: "Something else"),
-    Exercise(name: "Push Ups"),
-    Exercise(name: "Bench press"),
-    Exercise(name: "Pull ups"),
-    Exercise(name: "Press ups"),
-    Exercise(name: "Crunches"),
-    Exercise(name: "Sit ups"),
-    Exercise(name: "BIceps curl"),
-    Exercise(name: "Something else"),
-    Exercise(name: "Push Ups"),
-    Exercise(name: "Bench press"),
-    Exercise(name: "Pull ups"),
-    Exercise(name: "Press ups"),
-    Exercise(name: "Crunches"),
-    Exercise(name: "Sit ups"),
-    Exercise(name: "BIceps curl"),
-    Exercise(name: "Something else"),
-    Exercise(name: "Push Ups"),
-    Exercise(name: "Bench press"),
-    Exercise(name: "Pull ups"),
-    Exercise(name: "Press ups"),
-    Exercise(name: "Crunches"),
-    Exercise(name: "Sit ups"),
-    Exercise(name: "BIceps curl"),
-    Exercise(name: "Something else"),
-    Exercise(name: "Push Ups"),
-    Exercise(name: "Bench press"),
-    Exercise(name: "Pull ups"),
-    Exercise(name: "Press ups"),
-    Exercise(name: "Crunches"),
-    Exercise(name: "Sit ups"),
-    Exercise(name: "BIceps curl"),
-    Exercise(name: "Something else"),
+
+  final List<WorkoutExercise> workoutExercises = [
+    WorkoutExercise(exercise: Exercise(name: "Push Ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Crunches"), workoutId: 1, loggingParameters: {"sets": 5, "reps": 6}),
+    WorkoutExercise(exercise: Exercise(name: "Press ups"), workoutId: 1, loggingParameters: {"sets": 2, "reps": 1}),
+    WorkoutExercise(exercise: Exercise(name: "Biceps curl"), workoutId: 1, loggingParameters: {"sets": 6, "reps": 20}),
+    WorkoutExercise(exercise: Exercise(name: "Pull ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Rows"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Push Ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Crunches"), workoutId: 1, loggingParameters: {"sets": 5, "reps": 6}),
+    WorkoutExercise(exercise: Exercise(name: "Press ups"), workoutId: 1, loggingParameters: {"sets": 2, "reps": 1}),
+    WorkoutExercise(exercise: Exercise(name: "Biceps curl"), workoutId: 1, loggingParameters: {"sets": 6, "reps": 20}),
+    WorkoutExercise(exercise: Exercise(name: "Pull ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Rows"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Push Ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Crunches"), workoutId: 1, loggingParameters: {"sets": 5, "reps": 6}),
+    WorkoutExercise(exercise: Exercise(name: "Press ups"), workoutId: 1, loggingParameters: {"sets": 2, "reps": 1}),
+    WorkoutExercise(exercise: Exercise(name: "Biceps curl"), workoutId: 1, loggingParameters: {"sets": 6, "reps": 20}),
+    WorkoutExercise(exercise: Exercise(name: "Pull ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Rows"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Push Ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Crunches"), workoutId: 1, loggingParameters: {"sets": 5, "reps": 6}),
+    WorkoutExercise(exercise: Exercise(name: "Press ups"), workoutId: 1, loggingParameters: {"sets": 2, "reps": 1}),
+    WorkoutExercise(exercise: Exercise(name: "Biceps curl"), workoutId: 1, loggingParameters: {"sets": 6, "reps": 20}),
+    WorkoutExercise(exercise: Exercise(name: "Pull ups"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
+    WorkoutExercise(exercise: Exercise(name: "Rows"), workoutId: 1, loggingParameters: {"sets": 3, "reps": 12}),
   ];
 
   WorkoutDetailsPage(this._workout);
@@ -53,23 +39,11 @@ class WorkoutDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.play_arrow),
         backgroundColor: Colors.blue,
         elevation: 12,
         onPressed: () {},
-      ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 8,
-        shape: CircularNotchedRectangle(),
-        color: Colors.blue,
-        child: Container(
-          height: 50,
-          child: Row(
-            children: <Widget>[Text("data")],
-          ),
-        ),
       ),
       body: CustomScrollView(
         slivers: <Widget>[
@@ -80,11 +54,12 @@ class WorkoutDetailsPage extends StatelessWidget {
             snap: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(_workout.name),
+              background: Container(),
             ),
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(buildSliverListItem,
-                childCount: exercises.length),
+                childCount: workoutExercises.length),
           ),
         ],
       ),
@@ -94,7 +69,7 @@ class WorkoutDetailsPage extends StatelessWidget {
   Widget buildSliverListItem(BuildContext context, int index) {
     return Center(
       child: ListTile(
-        title: Text(exercises[index].name),
+        title: Text(workoutExercises[index].exercise.name),
       ),
     );
   }
