@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 
-class SetsValuePickerWidget extends StatelessWidget {
+class ValuePicker extends StatelessWidget {
   final double value;  
   final String label;
   final Function onAddPress; 
   final Function onRemovePress; 
+  final Color color; 
+  final String appendLabelToValue;
+  final bool isValueInt; 
 
-  SetsValuePickerWidget({
+  ValuePicker({
     this.value = 0.0, 
     this.label = "", 
     this.onAddPress, 
-    this.onRemovePress
+    this.onRemovePress,
+    this.color = Colors.blue,
+    this.appendLabelToValue,
+    this.isValueInt = false
   });
 
   Widget build(BuildContext context) {
     return Container(
       width: 200,
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: color,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
@@ -31,7 +37,7 @@ class SetsValuePickerWidget extends StatelessWidget {
               onPress: onRemovePress,
             ),
             ControlLabels(
-              value: value.toString() + " kg",
+              value: _getControlsLabel(),
               label: label,
             ),
             ControlButton(
@@ -42,6 +48,17 @@ class SetsValuePickerWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getControlsLabel() {
+    String controlValue;
+    if (isValueInt) {
+      controlValue = value.toInt().toString();
+    } else {
+      controlValue =value.toString();
+    }
+
+    return (appendLabelToValue != null) ? controlValue + appendLabelToValue : controlValue;
   }
 }
 
