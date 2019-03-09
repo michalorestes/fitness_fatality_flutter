@@ -1,5 +1,4 @@
 import 'package:fitness_fatality_flutter/data/entities/exercise/muscle_groups.dart';
-import 'package:flutter/material.dart';
 
 enum ExerciseType { CARDIO, BODY_WEIGHT, WEIGHTS, MACHINES }
 enum ExerciseLoggingType { TIME, REPS, DURATION }
