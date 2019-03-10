@@ -21,7 +21,7 @@ class ValuePicker extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
+      width: 300,
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(20),
@@ -69,7 +69,7 @@ class ControlButton extends StatelessWidget {
   final Function onPress;
 
   ControlButton(
-      {this.icon, this.controlSize = 22, this.iconSize = 16, this.onPress});
+      {this.icon, this.controlSize = 32, this.iconSize = 26, this.onPress});
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class ControlLabels extends StatelessWidget {
           this.value,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 12,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -111,7 +111,7 @@ class ControlLabels extends StatelessWidget {
           this.label,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 8,
+            fontSize: 10,
           ),
         ),
       ],
