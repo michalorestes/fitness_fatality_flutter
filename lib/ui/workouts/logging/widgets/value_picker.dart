@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 
 class ValuePicker extends StatelessWidget {
-  final double value;  
+  final double value;
   final String label;
-  final Function onAddPress; 
-  final Function onRemovePress; 
-  final Color color; 
+  final Function onAddPress;
+  final Function onRemovePress;
+  final Color color;
   final String appendLabelToValue;
-  final bool isValueInt; 
+  final bool isValueInt;
 
-  ValuePicker({
-    this.value = 0.0, 
-    this.label = "", 
-    this.onAddPress, 
-    this.onRemovePress,
-    this.color = Colors.blue,
-    this.appendLabelToValue,
-    this.isValueInt = false
-  });
+  ValuePicker(
+      {this.value = 0.0,
+      this.label = "",
+      this.onAddPress,
+      this.onRemovePress,
+      this.color = Colors.blue,
+      this.appendLabelToValue,
+      this.isValueInt = false});
 
   Widget build(BuildContext context) {
     return Container(
@@ -32,15 +31,15 @@ class ValuePicker extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            ControlButton(
+            PickerButton(
               icon: Icons.remove_circle_outline,
               onPress: onRemovePress,
             ),
-            ControlLabels(
+            PickerLabels(
               value: _getControlsLabel(),
               label: label,
             ),
-            ControlButton(
+            PickerButton(
               icon: Icons.add_circle_outline,
               onPress: onAddPress,
             ),
@@ -55,20 +54,22 @@ class ValuePicker extends StatelessWidget {
     if (isValueInt) {
       controlValue = value.toInt().toString();
     } else {
-      controlValue =value.toString();
+      controlValue = value.toString();
     }
 
-    return (appendLabelToValue != null) ? controlValue + appendLabelToValue : controlValue;
+    return (appendLabelToValue != null)
+        ? controlValue + appendLabelToValue
+        : controlValue;
   }
 }
 
-class ControlButton extends StatelessWidget {
+class PickerButton extends StatelessWidget {
   final IconData icon;
   final double controlSize;
   final double iconSize;
   final Function onPress;
 
-  ControlButton(
+  PickerButton(
       {this.icon, this.controlSize = 32, this.iconSize = 26, this.onPress});
 
   @override
@@ -89,32 +90,29 @@ class ControlButton extends StatelessWidget {
   }
 }
 
-class ControlLabels extends StatelessWidget {
+class PickerLabels extends StatelessWidget {
   final String value;
   final String label;
 
-  ControlLabels({this.value = "", this.label = ""});
+  PickerLabels({this.value = "", this.label = ""});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text(
-          this.value,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          this.label,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 10,
-          ),
-        ),
+        _buildText(this.value, 16),
+        _buildText(this.label, 10),
       ],
+    );
+  }
+
+  Text _buildText(String text, double fontSize) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: fontSize,
+      ),
     );
   }
 }
