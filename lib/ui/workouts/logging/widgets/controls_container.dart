@@ -3,6 +3,11 @@ import 'package:fitness_fatality_flutter/ui/workouts/logging/widgets/value_picke
 import 'package:flutter/material.dart';
 
 class ControlsContainer extends StatefulWidget {
+
+  final Function onNextPress;
+
+  ControlsContainer({this.onNextPress});
+
   @override
   State<ControlsContainer> createState() {
     return ControlsContainerState();
@@ -28,6 +33,7 @@ class ControlsContainerState extends State<ControlsContainer> {
       color: Color(0xFF2F6FCF),
       width: double.infinity,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           LoggingLabel(
             text: "BENCH PRESS",
@@ -84,7 +90,7 @@ class ControlsContainerState extends State<ControlsContainer> {
             "NEXT",
             style: TextStyle(color: Colors.white),
           ),
-          onPressed: () {},
+          onPressed: widget.onNextPress,
         )
       ],
     );

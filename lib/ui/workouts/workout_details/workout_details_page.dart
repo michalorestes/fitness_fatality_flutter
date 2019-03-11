@@ -79,7 +79,7 @@ class WorkoutDetailsPage extends StatelessWidget {
             snap: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(_workout.name),
-              background: Container(),
+              
             ),
           ),
           SliverList(

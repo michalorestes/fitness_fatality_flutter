@@ -2,6 +2,12 @@ import 'package:fitness_fatality_flutter/ui/workouts/logging/widgets/logging_lab
 import 'package:flutter/material.dart';
 
 class TimerContainer extends StatelessWidget {
+
+  final Function onNextPress;
+
+  TimerContainer({this.onNextPress});
+
+
   Widget build(BuildContext context) {
     return Container(
       color: Colors.green,
@@ -44,7 +50,7 @@ class TimerContainer extends StatelessWidget {
             "NEXT",
             style: TextStyle(color: Colors.white),
           ),
-          onPressed: () {},
+          onPressed: onNextPress,
         )
       ],
     );
