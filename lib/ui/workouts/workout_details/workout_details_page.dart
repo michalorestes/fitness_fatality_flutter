@@ -67,7 +67,13 @@ class WorkoutDetailsPage extends StatelessWidget {
         backgroundColor: Colors.orange,
         elevation: 12,
         onPressed: () {
-          Routing.navigate(context, LoggingPage());
+          Routing.navigate(
+            context,
+            LoggingPage(
+              workout: _workout,
+              exercises: workoutExercises,
+            ),
+          );
         },
       ),
       body: CustomScrollView(
@@ -79,7 +85,6 @@ class WorkoutDetailsPage extends StatelessWidget {
             snap: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(_workout.name),
-              
             ),
           ),
           SliverList(
@@ -103,7 +108,7 @@ class WorkoutDetailsPage extends StatelessWidget {
           height: 32,
           width: 32,
         ),
-        onTap: (){},
+        onTap: () {},
       ),
     );
   }

@@ -3,10 +3,18 @@ import 'package:fitness_fatality_flutter/ui/workouts/logging/widgets/value_picke
 import 'package:flutter/material.dart';
 
 class ControlsContainer extends StatefulWidget {
-
+  final String exerciseName;
+  final int setNumber;
+  final double startingWeight;
+  final int startingReps;
   final Function onNextPress;
 
-  ControlsContainer({this.onNextPress});
+  ControlsContainer(
+      {this.onNextPress,
+      this.exerciseName = "",
+      this.setNumber = 1,
+      this.startingWeight = 0.0,
+      this.startingReps = 0});
 
   @override
   State<ControlsContainer> createState() {
@@ -16,14 +24,14 @@ class ControlsContainer extends StatefulWidget {
 
 class ControlsContainerState extends State<ControlsContainer> {
   double weightValue;
-  int setsValue;
+  int repsValue;
   int elevation;
 
   @override
   void initState() {
     super.initState();
-    weightValue = 0.0;
-    setsValue = 0;
+    weightValue = widget.startingWeight;
+    repsValue = widget.startingReps;
     elevation = 6;
   }
 
@@ -36,10 +44,10 @@ class ControlsContainerState extends State<ControlsContainer> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           LoggingLabel(
-            text: "BENCH PRESS",
+            text: widget.exerciseName,
           ),
           LoggingLabel(
-            text: "SET 1",
+            text: "SET " + widget.setNumber.toString(),
             fontSize: 26,
           ),
           ValuePicker(
@@ -54,8 +62,8 @@ class ControlsContainerState extends State<ControlsContainer> {
             height: 16,
           ),
           ValuePicker(
-            value: setsValue.toDouble(),
-            label: "sets",
+            value: repsValue.toDouble(),
+            label: "reps",
             onAddPress: onAddSetsPressed,
             onRemovePress: onRemoveSetsPressed,
             color: Color(0x33FFFFFF),
@@ -112,14 +120,14 @@ class ControlsContainerState extends State<ControlsContainer> {
 
   void onAddSetsPressed() {
     setState(() {
-      setsValue += 1;
+      repsValue += 1;
     });
   }
 
   void onRemoveSetsPressed() {
-    if (setsValue > 0) {
+    if (repsValue > 0) {
       setState(() {
-        setsValue -= 1;
+        repsValue -= 1;
       });
     }
   }
