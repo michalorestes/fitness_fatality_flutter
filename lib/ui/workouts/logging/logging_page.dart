@@ -17,12 +17,9 @@ class LoggingPage extends StatefulWidget {
 
   int currentExerciseIndex = 0;
   int currentSetIndex = 1;
-  LoggingParametersAbstract loggingParameters; 
-  Map<String, dynamic> logs = Map<String, dynamic>(); 
+  Map<String, dynamic> logs = Map<String, dynamic>();
 
-  LoggingPage({this.workout, this.exercises}) {
-    loggingParameters = exercises[currentExerciseIndex].loggingParameters;
-  }
+  LoggingPage({this.workout, this.exercises});
 
   @override
   State<LoggingPage> createState() {
@@ -31,11 +28,20 @@ class LoggingPage extends StatefulWidget {
 }
 
 class LoggingPageState extends State<LoggingPage> {
+  Widget containerWidget;
+  WorkoutExercise currentExercise;
+  LoggingParametersAbstract currentLogging;
 
-  Widget containerWidget; 
+  void _initProperties() {
+    if (_isNextExerciseAvailable() || _isOneExerciseOnly()) {
+      _setCurrentExerciseDetails();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    _initProperties();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -51,16 +57,15 @@ class LoggingPageState extends State<LoggingPage> {
   }
 
   Widget _getContainer() {
-    WorkoutExercise workoutExercise =
-        widget.exercises[widget.currentExerciseIndex];
-    
-    if (widget.currentContainer == Container.CONTROLS) {
+    if (_isWorkoutComplete()) {
+      containerWidget = Text("Workout Complete! Congrats!");
+    } else if (widget.currentContainer == Container.CONTROLS) {
       containerWidget = ControlsContainer(
-        exerciseName: workoutExercise.exercise.name,
+        exerciseName: currentExercise.exercise.name,
         setNumber: widget.currentSetIndex,
         onNextPress: _onControlsNextPress,
       );
-    } else {
+    } else if (widget.currentContainer == Container.TIMER) {
       containerWidget = TimerContainer(
         onNextPress: _onTimerNextPress,
       );
@@ -78,20 +83,46 @@ class LoggingPageState extends State<LoggingPage> {
   void _onControlsNextPress() {
     setState(() {
       widget.currentContainer = Container.TIMER;
-      RepsLogging logging = 
-        widget
-          .exercises[widget.currentExerciseIndex]
-          .loggingParameters;
 
-      if (widget.currentSetIndex < logging.getParameters()['sets']) {
-        widget.currentSetIndex++;
-      } else if (widget.currentExerciseIndex < widget.exercises.length - 1) {
-        widget.currentSetIndex = 1;
-        widget.currentExerciseIndex++;
-      } else {
-        //TODO: Reached end of session. Finalise workout
-        print("Reached end of session. Finalise workout");
+      if (_isNextSetAvailable()) {
+        _startNextSet();
+      } else if (_isNextExerciseAvailable()) {
+        _startNextExercise();
       }
     });
+  }
+
+  void _setCurrentExerciseDetails() {
+    currentExercise = widget.exercises[widget.currentExerciseIndex];
+    currentLogging = currentExercise.loggingParameters;
+  }
+
+  void _startNextSet() {
+    widget.currentSetIndex++;
+  }
+
+  void _startNextExercise() {
+    _resetSetsCount();
+    widget.currentExerciseIndex++;
+  }
+
+  void _resetSetsCount() {
+    widget.currentSetIndex = 1;
+  }
+
+  bool _isWorkoutComplete() {
+    return (widget.currentExerciseIndex > widget.exercises.length - 1);
+  }
+
+  bool _isNextSetAvailable() {
+    return (widget.currentSetIndex < currentLogging.getParameters()['sets']);
+  }
+
+  bool _isNextExerciseAvailable() {
+    return (widget.currentExerciseIndex <= widget.exercises.length - 1);
+  }
+
+  bool _isOneExerciseOnly() {
+    return (widget.exercises.length == 1 && widget.currentExerciseIndex == 0);
   }
 }
