@@ -5,16 +5,25 @@ import 'package:flutter/material.dart';
 class ControlsContainer extends StatefulWidget {
   final String exerciseName;
   final int setNumber;
-  final double startingWeight;
-  final int startingReps;
+  final double weightPickerValue;
+  final int repsPickerValue;
   final Function onNextPress;
+  final Function onRepsIncrement;
+  final Function onRepsDecrement;
+  final Function onWeightIncrement;
+  final Function onWeightDecrement;
 
-  ControlsContainer(
-      {this.onNextPress,
-      this.exerciseName = "",
-      this.setNumber = 1,
-      this.startingWeight = 0.0,
-      this.startingReps = 0});
+  ControlsContainer({
+    this.onNextPress,
+    this.exerciseName = "",
+    this.setNumber = 1,
+    this.weightPickerValue = 0.0,
+    this.repsPickerValue = 0,
+    this.onRepsIncrement,
+    this.onRepsDecrement,
+    this.onWeightIncrement,
+    this.onWeightDecrement,
+  });
 
   @override
   State<ControlsContainer> createState() {
@@ -30,8 +39,8 @@ class ControlsContainerState extends State<ControlsContainer> {
   @override
   void initState() {
     super.initState();
-    weightValue = widget.startingWeight;
-    repsValue = widget.startingReps;
+    weightValue = widget.weightPickerValue;
+    repsValue = widget.repsPickerValue;
     elevation = 6;
   }
 
@@ -51,21 +60,21 @@ class ControlsContainerState extends State<ControlsContainer> {
             fontSize: 26,
           ),
           ValuePicker(
-            value: weightValue,
+            value: widget.weightPickerValue,
             label: "weight",
             appendLabelToValue: " kg",
-            onAddPress: onAddWeightPressed,
-            onRemovePress: onRemoveWeightPressed,
+            onAddPress: widget.onWeightIncrement,
+            onRemovePress: widget.onWeightDecrement,
             color: Color(0x33FFFFFF),
           ),
           SizedBox(
             height: 16,
           ),
           ValuePicker(
-            value: repsValue.toDouble(),
+            value: widget.repsPickerValue.toDouble(),
             label: "reps",
-            onAddPress: onAddSetsPressed,
-            onRemovePress: onRemoveSetsPressed,
+            onAddPress: widget.onRepsIncrement,
+            onRemovePress: widget.onRepsDecrement,
             color: Color(0x33FFFFFF),
             isValueInt: true,
           ),
@@ -102,33 +111,5 @@ class ControlsContainerState extends State<ControlsContainer> {
         )
       ],
     );
-  }
-
-  void onAddWeightPressed() {
-    setState(() {
-      weightValue += 0.5;
-    });
-  }
-
-  void onRemoveWeightPressed() {
-    if (weightValue > 0) {
-      setState(() {
-        weightValue -= .5;
-      });
-    }
-  }
-
-  void onAddSetsPressed() {
-    setState(() {
-      repsValue += 1;
-    });
-  }
-
-  void onRemoveSetsPressed() {
-    if (repsValue > 0) {
-      setState(() {
-        repsValue -= 1;
-      });
-    }
   }
 }
