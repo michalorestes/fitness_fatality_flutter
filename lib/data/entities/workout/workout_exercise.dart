@@ -1,5 +1,6 @@
 import 'package:fitness_fatality_flutter/data/entities/exercise/exercise.dart';
-import 'package:fitness_fatality_flutter/data/entities/workout/logging_parameters/logging_parameters_abstract.dart';
+import 'package:fitness_fatality_flutter/data/entities/logs/exercise_log.dart';
+import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/logging_parameters_abstract.dart';
 
 class WorkoutExercise {
   int id;
@@ -8,6 +9,7 @@ class WorkoutExercise {
   int sequenceId;
   ExerciseLoggingType prefferedLogging;
   LoggingParametersAbstract loggingParameters;
+  List<ExerciseLog> logs = List<ExerciseLog>();
 
   WorkoutExercise(
       {this.id,

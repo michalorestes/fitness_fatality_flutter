@@ -1,5 +1,5 @@
 import 'package:fitness_fatality_flutter/data/entities/exercise/exercise.dart';
-import 'package:fitness_fatality_flutter/data/entities/workout/logging_parameters/reps_logging.dart';
+import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/reps_logging.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 import 'package:fitness_fatality_flutter/routing/routing.dart';

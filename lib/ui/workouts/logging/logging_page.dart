@@ -1,4 +1,4 @@
-import 'package:fitness_fatality_flutter/data/entities/workout/logging_parameters/logging_parameters_abstract.dart';
+import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/logging_parameters_abstract.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/bloc/bloc_component.dart';
@@ -70,6 +70,12 @@ class LoggingPageState extends State<LoggingPage> {
           exerciseName: exerciseName,
           setNumber: _bloc.currentState.currentSetIndex,
           onNextPress: () => _bloc.dispatch(BlocEvents.NextEvent),
+          repsPickerValue: _bloc.currentState.currentLog.numberOfReps,
+          weightPickerValue: _bloc.currentState.currentLog.liftedWeight,
+          onRepsIncrement: () => _bloc.dispatch(BlocEvents.IncrementRepsEvent),
+          onRepsDecrement: () => _bloc.dispatch(BlocEvents.DecrementRepsEvent),
+          onWeightIncrement: () => _bloc.dispatch(BlocEvents.IncrementWeightEvent),
+          onWeightDecrement: () => _bloc.dispatch(BlocEvents.DecrementWeightEvent),
         );
         break;
       case Containers.TIMER:
