@@ -13,6 +13,26 @@ class WorkoutDetailsPage extends StatelessWidget {
     WorkoutExercise(
         exercise: Exercise(name: "Push Ups"),
         workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Crunches"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 2, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Press ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Biceps curl"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Pull ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Push Ups"),
+        workoutId: 1,
         loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
     WorkoutExercise(
         exercise: Exercise(name: "Crunches"),
@@ -21,15 +41,15 @@ class WorkoutDetailsPage extends StatelessWidget {
     WorkoutExercise(
         exercise: Exercise(name: "Press ups"),
         workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 2, "reps": 12})),
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
     WorkoutExercise(
         exercise: Exercise(name: "Biceps curl"),
         workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
     WorkoutExercise(
         exercise: Exercise(name: "Pull ups"),
         workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
   ];
 
   WorkoutDetailsPage(this._workout);

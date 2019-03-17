@@ -3,6 +3,7 @@ import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/bloc/bloc_component.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/bloc/bloc_state.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/logging/widgets/containers/completed_exercises_container.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/widgets/containers/controls_container.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/widgets/containers/timer_container.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +47,13 @@ class LoggingPageState extends State<LoggingPage> {
               direction: Axis.vertical,
               children: <Widget>[
                 _getContainer(),
-                // Expanded(child: CompletedExercisesContainer()),
-                Expanded(child: Text("Press")),
+                Expanded(
+                  flex: 1,
+                  child: BlocProvider<BlocComponent>(
+                    bloc: _bloc, 
+                    child: CompletedExercisesContainer(),
+                  ) 
+                ),
               ],
             );
           },
@@ -86,7 +92,7 @@ class LoggingPageState extends State<LoggingPage> {
       default:
     }
 
-    return Expanded(child: containerWidget);
+    return Expanded(flex: 2, child: containerWidget);
   }
 
   @override
