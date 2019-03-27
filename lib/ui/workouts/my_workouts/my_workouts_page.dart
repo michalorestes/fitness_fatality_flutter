@@ -27,7 +27,8 @@ class MyWorkoutsPageState extends State<MyWorkoutsPage> {
       appBar: AppBar(
         title: Text("Fitness Fatality"),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
+        
         onPressed: () {
           Routing.navigate<Workout>(context, CreateNewWorkoutPage())
               .then((Workout workout) {
@@ -40,7 +41,8 @@ class MyWorkoutsPageState extends State<MyWorkoutsPage> {
             });
           });
         },
-        child: Icon(Icons.add),
+        label: Text("Add new"),
+        icon: Icon(Icons.add),
       ),
       body: ListView.builder(
         itemCount: _workouts.length,
