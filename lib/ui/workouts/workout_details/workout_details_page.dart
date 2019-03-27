@@ -4,6 +4,7 @@ import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 import 'package:fitness_fatality_flutter/routing/routing.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/logging_page.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/workout_details/sliver_persistent_header_delegate.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutDetailsPage extends StatelessWidget {
@@ -50,6 +51,22 @@ class WorkoutDetailsPage extends StatelessWidget {
         exercise: Exercise(name: "Pull ups"),
         workoutId: 1,
         loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Crunches"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Press ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Biceps curl"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
+    WorkoutExercise(
+        exercise: Exercise(name: "Pull ups"),
+        workoutId: 1,
+        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
   ];
 
   WorkoutDetailsPage(this._workout);
@@ -72,29 +89,33 @@ class WorkoutDetailsPage extends StatelessWidget {
           );
         },
       ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            expandedHeight: 300,
-            pinned: true,
-            floating: true,
-            snap: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(_workout.name),
+      body: SafeArea(
+        child: CustomScrollView(
+          physics: ScrollPhysics(),
+          slivers: <Widget>[
+            SliverPersistentHeader(
+              pinned: true,
+              floating: true,
+              delegate: MySliverPersistenceHeaderDelegate(
+                  title: "My Workout",
+                  titleColor: Colors.blue,
+                  titleSizeExpanded: 26,
+                  actions: <Widget>[IconButton(onPressed: (){}, icon: Icon(Icons.access_alarm), padding: EdgeInsets.symmetric(vertical: 0),)]),
             ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(buildSliverListItem,
-                childCount: workoutExercises.length),
-          ),
-        ],
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                buildSliverListItem,
+                childCount: workoutExercises.length,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget buildSliverListItem(BuildContext context, int index) {
     Exercise exercise = workoutExercises[index].exercise;
-
     return Center(
       child: ListTile(
         title: Text(exercise.name),
