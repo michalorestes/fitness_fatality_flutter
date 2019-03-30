@@ -35,7 +35,7 @@ class DatabaseProvider {
           ")");
 
       await db.execute("CREATE TABLE exercise ("
-          "id INTEGER PRIMARY KEY,"
+          "id INTEGER PRIMARY KEY AUTOINCREMENT,"
           "name TEXT,"
           "exerciseType TEXT,"
           "primaryMuscleGroup INTEGER,"

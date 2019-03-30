@@ -24,7 +24,7 @@ class Workout {
       "schedule": schedule.join(",")
     };
 
-    if (id != null) {
+    if (id != null && id >= 0) {
       map['id'] = id;
     }
 
