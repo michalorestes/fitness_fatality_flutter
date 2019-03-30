@@ -1,3 +1,5 @@
+import '../../database/database_provider.dart';
+
 //TODO: Switch to using enums once again
 class WorkoutTypes {
   static const WEIGHTS = "Weights";
@@ -15,4 +17,44 @@ class Workout {
       this.name: "",
       this.type: WorkoutTypes.WEIGHTS,
       this.schedule});
+
+  Map<String, dynamic> toJson() {
+   Map<String, dynamic> map = {
+     "name": name,
+     "type": type,
+     "schedule": schedule.join(",")
+   };
+
+   if(id != null) {
+     map['id'] = id;
+   }
+
+    return map;
+  }
+
+  factory Workout.fromJson(Map<String, dynamic> json) => Workout(
+    id: json['id'],
+    name: json['name'],
+    type: json['type'],
+    schedule: (json['schedule'] as String).split(",")
+  );
+
+  Future<int> save() async {
+    final db = await DatabaseProvider.database;
+    int result = await db.insert("workout", this.toJson());
+
+    return result;
+  }
+
+  static Future<List<Workout>> getAllWorkouts() async {
+    final db = await DatabaseProvider.database;
+    List<Map> res = await db.query("workout");
+    List<Workout> data = List();
+
+    res.forEach((f) => {
+      data.add(Workout.fromJson(f))
+    });
+
+    return data;
+  }
 }

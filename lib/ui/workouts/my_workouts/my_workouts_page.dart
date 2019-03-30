@@ -1,9 +1,12 @@
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/routing/routing.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/create_new_workout/create_new_workout_page.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/my_workouts/bloc/my_workouts_bloc.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/my_workouts/bloc/my_workouts_state.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/workout_details/workout_details_page.dart';
 import 'package:fitness_fatality_flutter/widgets/workout_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyWorkoutsPage extends StatefulWidget {
   @override
@@ -13,48 +16,57 @@ class MyWorkoutsPage extends StatefulWidget {
 }
 
 class MyWorkoutsPageState extends State<MyWorkoutsPage> {
-  final List<Workout> _workouts = [
-    Workout(name: "Workout A", type: WorkoutTypes.WEIGHTS),
-    Workout(name: "Workout B", type: WorkoutTypes.WEIGHTS),
-    Workout(name: "Workout c", type: WorkoutTypes.CARDIO),
-    Workout(name: "Workout c", type: WorkoutTypes.CARDIO)
-  ];
+  MyWorkoutsBloc bloc = MyWorkoutsBloc();
+
+  MyWorkoutsPageState() {
+    bloc.dispatch(Events.LOAD_WORKOUTS);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text("Fitness Fatality"),
+      appBar: AppBar(title: Text("Fitness Fatality")),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onFabPress,
+        child: Icon(Icons.add),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        
-        onPressed: () {
-          Routing.navigate<Workout>(context, CreateNewWorkoutPage())
-              .then((Workout workout) {
-            if (workout == null) {
-              return;
-            }
-            setState(() {
-              print(workout.type.toString());
-              _workouts.add(workout);
-            });
-          });
-        },
-        label: Text("Add new"),
-        icon: Icon(Icons.add),
-      ),
-      body: ListView.builder(
-        itemCount: _workouts.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _buildListItem(_workouts[index], index);
-        },
+      body: BlocBuilder(
+        bloc: bloc,
+        builder: (BuildContext context, MyWorkoutsState state) =>
+            _WorkoutsList(workouts: state.workouts),
       ),
     );
   }
 
-  Widget _buildListItem(Workout workout, int index) {
-    print(_workouts.length <= index);
+  void _onFabPress() {
+    Routing.navigate<Workout>(context, CreateNewWorkoutPage())
+        .then((var t) => bloc.dispatch(Events.RELOAD_WORKOUTS));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    bloc.dispose();
+  }
+}
+
+class _WorkoutsList extends StatelessWidget {
+  final List<Workout> workouts;
+
+  _WorkoutsList({this.workouts});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: workouts.length,
+        itemBuilder: (BuildContext context, int index) =>
+            _buildListItem(context, index));
+  }
+
+  Widget _buildListItem(BuildContext context, int index) {
+    Workout workout = workouts[index];
+
     String imageAsset = "assets/weights_workout_icon.png";
     if (workout.type == WorkoutTypes.CARDIO) {
       imageAsset = "assets/cardio_workout_icon.png";
@@ -67,9 +79,7 @@ class MyWorkoutsPageState extends State<MyWorkoutsPage> {
         type: workout.type,
         icon: imageAsset,
         onTap: () {
-          Routing.navigate(
-              context,
-              WorkoutDetailsPage(_workouts[index]));
+          Routing.navigate(context, WorkoutDetailsPage(workout));
         },
         onChipTap: () {},
       ),

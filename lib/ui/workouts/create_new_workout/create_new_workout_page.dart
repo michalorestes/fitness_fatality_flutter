@@ -2,7 +2,8 @@ import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:flutter/material.dart';
 
 class CreateNewWorkoutPage extends StatefulWidget {
-  final Workout _createdWorkout = Workout(name: "", type:WorkoutTypes.WEIGHTS, schedule: []);
+  final Workout _createdWorkout =
+      Workout(name: "", type: WorkoutTypes.WEIGHTS, schedule: []);
 
   @override
   State<StatefulWidget> createState() => _CreateNewWorkoutPageState();
@@ -33,6 +34,7 @@ class _CreateNewWorkoutPageState extends State<CreateNewWorkoutPage> {
           icon: Icon(Icons.check),
           tooltip: "Save workout",
           onPressed: () {
+            widget._createdWorkout.save();
             Navigator.pop<Workout>(context, widget._createdWorkout);
           },
         )
@@ -133,7 +135,8 @@ class _CreateNewWorkoutPageState extends State<CreateNewWorkoutPage> {
     });
 
     return Padding(
-      padding: const EdgeInsets.only(top: _sectionPadding, bottom: _sectionPadding),
+      padding:
+          const EdgeInsets.only(top: _sectionPadding, bottom: _sectionPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

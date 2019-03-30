@@ -6,6 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AddExercisePage extends StatelessWidget {
   final ExerciseBloc bloc = ExerciseBloc();
 
+  AddExercisePage() {
+    
+    bloc.dispatch(Events.INITIALISE_EXERCISES_DATA);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +32,7 @@ class AddExercisePage extends StatelessWidget {
     print(index);
     return ListTile(
       title: Text(bloc.currentState.exercises[index].name),
-      subtitle: Text(bloc.currentState.exercises[index].muscleGroups.primaryGroup.toString()),
+      subtitle: Text(bloc.currentState.exercises[index].primaryMuscleGroup.toString()),
       trailing: Icon(Icons.add),
     );
   }

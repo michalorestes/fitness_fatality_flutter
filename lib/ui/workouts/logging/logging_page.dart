@@ -37,27 +37,28 @@ class LoggingPageState extends State<LoggingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-        ),
-        body: BlocBuilder(
-          bloc: _bloc,
-          builder: (BuildContext context, BlocState state) {
-            return Flex(
-              direction: Axis.vertical,
-              children: <Widget>[
-                _getContainer(),
-                Expanded(
-                  flex: 1,
-                  child: BlocProvider<BlocComponent>(
-                    bloc: _bloc, 
-                    child: CompletedExercisesContainer(),
-                  ) 
+      appBar: AppBar(
+        elevation: 0,
+      ),
+      body: BlocBuilder(
+        bloc: _bloc,
+        builder: (BuildContext context, BlocState state) {
+          return Flex(
+            direction: Axis.vertical,
+            children: <Widget>[
+              _getContainer(),
+              Expanded(
+                flex: 1,
+                child: BlocProvider<BlocComponent>(
+                  bloc: _bloc,
+                  child: CompletedExercisesContainer(),
                 ),
-              ],
-            );
-          },
-        ));
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
   Widget _getContainer() {
@@ -80,8 +81,10 @@ class LoggingPageState extends State<LoggingPage> {
           weightPickerValue: _bloc.currentState.currentLog.liftedWeight,
           onRepsIncrement: () => _bloc.dispatch(BlocEvents.IncrementRepsEvent),
           onRepsDecrement: () => _bloc.dispatch(BlocEvents.DecrementRepsEvent),
-          onWeightIncrement: () => _bloc.dispatch(BlocEvents.IncrementWeightEvent),
-          onWeightDecrement: () => _bloc.dispatch(BlocEvents.DecrementWeightEvent),
+          onWeightIncrement: () =>
+              _bloc.dispatch(BlocEvents.IncrementWeightEvent),
+          onWeightDecrement: () =>
+              _bloc.dispatch(BlocEvents.DecrementWeightEvent),
         );
         break;
       case Containers.TIMER:
