@@ -1,43 +1,41 @@
 import '../../database/database_provider.dart';
 
-//TODO: Switch to using enums once again
-class WorkoutTypes {
-  static const WEIGHTS = "Weights";
-  static const CARDIO = "Cardio";
-}
+enum WorkoutTypes { WEIGHTS, CARDIO }
 
 class Workout {
   int id;
   String name;
-  String type;
+  WorkoutTypes type;
   List<String> schedule;
 
-  Workout(
-      {this.id: -1,
-      this.name: "",
-      this.type: WorkoutTypes.WEIGHTS,
-      this.schedule});
+  String get workoutType => type.toString().split(".")[1];
+
+  Workout({
+    this.id: -1,
+    this.name: "",
+    this.type: WorkoutTypes.WEIGHTS,
+    this.schedule,
+  });
 
   Map<String, dynamic> toJson() {
-   Map<String, dynamic> map = {
-     "name": name,
-     "type": type,
-     "schedule": schedule.join(",")
-   };
+    Map<String, dynamic> map = {
+      "name": name,
+      "type": type.index,
+      "schedule": schedule.join(",")
+    };
 
-   if(id != null) {
-     map['id'] = id;
-   }
+    if (id != null) {
+      map['id'] = id;
+    }
 
     return map;
   }
 
   factory Workout.fromJson(Map<String, dynamic> json) => Workout(
-    id: json['id'],
-    name: json['name'],
-    type: json['type'],
-    schedule: (json['schedule'] as String).split(",")
-  );
+      id: json['id'],
+      name: json['name'],
+      type: WorkoutTypes.values[json['type']],
+      schedule: (json['schedule'] as String).split(","));
 
   Future<int> save() async {
     final db = await DatabaseProvider.database;
@@ -51,9 +49,7 @@ class Workout {
     List<Map> res = await db.query("workout");
     List<Workout> data = List();
 
-    res.forEach((f) => {
-      data.add(Workout.fromJson(f))
-    });
+    res.forEach((f) => {data.add(Workout.fromJson(f))});
 
     return data;
   }

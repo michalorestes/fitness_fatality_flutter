@@ -27,6 +27,7 @@ class Exercise {
   ExerciseLoggingType defaultLoggingType;
 
   String get type => exerciseType.toString().split(".")[1];
+  String get primaryMuscle => primaryMuscleGroup.toString().split(".")[1];
 
   Exercise(
       {this.id,
@@ -67,7 +68,7 @@ class Exercise {
       name: json['name'],
       exerciseType: ExerciseType.values[int.parse(json['exerciseType'])],
       primaryMuscleGroup: MuscleGroup.values[json['primaryMuscleGroup']],
-      secondaryMuscleGroups: json['secondaryMuscleGroups'].toString().split(",").map((dynamic group) => MuscleGroup.values[int.parse(group)]).toList(),
+      secondaryMuscleGroups: json['secondaryMuscleGroups'] != "" ? json['secondaryMuscleGroups'].toString().split(",").map((dynamic group) => MuscleGroup.values[int.parse(group)]).toList() : [],
       isCustom: json['isCustom'] == 1,
       defaultLoggingType: ExerciseLoggingType.values[int.parse(json['defaultLoggingType'])],
       availableLoggingTypes: json['availableLoggingTypes']

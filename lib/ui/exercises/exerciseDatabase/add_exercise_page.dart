@@ -7,7 +7,6 @@ class AddExercisePage extends StatelessWidget {
   final ExerciseBloc bloc = ExerciseBloc();
 
   AddExercisePage() {
-    
     bloc.dispatch(Events.INITIALISE_EXERCISES_DATA);
   }
 
@@ -21,7 +20,10 @@ class AddExercisePage extends StatelessWidget {
         bloc: bloc,
         builder: (BuildContext context, ExerciseState state) {
           return Container(
-            child: ListView.builder(itemBuilder: _buildListItems, itemCount: state.exercises.length,),
+            child: ListView.builder(
+              itemBuilder: _buildListItems,
+              itemCount: state.exercises.length,
+            ),
           );
         },
       ),
@@ -29,10 +31,9 @@ class AddExercisePage extends StatelessWidget {
   }
 
   Widget _buildListItems(BuildContext context, int index) {
-    print(index);
     return ListTile(
       title: Text(bloc.currentState.exercises[index].name),
-      subtitle: Text(bloc.currentState.exercises[index].primaryMuscleGroup.toString()),
+      subtitle: Text(bloc.currentState.exercises[index].primaryMuscle),
       trailing: Icon(Icons.add),
     );
   }

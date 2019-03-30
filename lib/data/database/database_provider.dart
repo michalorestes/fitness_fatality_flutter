@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:fitness_fatality_flutter/data/entities/exercise/exercise.dart';
-import 'package:fitness_fatality_flutter/data/entities/exercise/muscle_groups.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -29,9 +28,9 @@ class DatabaseProvider {
     Database database = await openDatabase(path, version: 3, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute("CREATE TABLE workout ("
-          "id INTEGER PRIMARY KEY,"
+          "id INTEGER PRIMARY KEY AUTOINCREMENT,"
           "name TEXT,"
-          "type TEXT,"
+          "type INTEGER,"
           "schedule TEXT"
           ")");
 
@@ -48,16 +47,6 @@ class DatabaseProvider {
     });
 
     await database.transaction((Transaction transaction) async {
-      Exercise e = Exercise(
-        name: "Bench Press",
-        isCustom: false,
-        defaultLoggingType: ExerciseLoggingType.REPS,
-        availableLoggingTypes: [ExerciseLoggingType.REPS],
-        exerciseType: ExerciseType.WEIGHTS,
-        primaryMuscleGroup: MuscleGroup.CHEST,
-        secondaryMuscleGroups: [MuscleGroup.TRICEPS],
-      );
-
       Workout w = Workout(
         name: "Workout A",
         type: WorkoutTypes.WEIGHTS,
@@ -65,7 +54,35 @@ class DatabaseProvider {
       );
 
       transaction.insert("workout", w.toJson());
-      transaction.insert("exercise", e.toJson());
+      transaction.insert("exercise", Exercise(
+        name: "Bench Press",
+        isCustom: false,
+        defaultLoggingType: ExerciseLoggingType.REPS,
+        availableLoggingTypes: [ExerciseLoggingType.REPS],
+        exerciseType: ExerciseType.WEIGHTS,
+        primaryMuscleGroup: MuscleGroup.CHEST,
+        secondaryMuscleGroups: [MuscleGroup.TRICEPS],
+      ).toJson()) ;
+
+      transaction.insert("exercise", Exercise(
+        name: "Squats",
+        isCustom: false,
+        defaultLoggingType: ExerciseLoggingType.REPS,
+        availableLoggingTypes: [ExerciseLoggingType.REPS],
+        exerciseType: ExerciseType.WEIGHTS,
+        primaryMuscleGroup: MuscleGroup.QUADRICEPS,
+        secondaryMuscleGroups: [MuscleGroup.HAMSTRINGS, MuscleGroup.ABS],
+      ).toJson());
+
+      transaction.insert("exercise", Exercise(
+        name: "Bicep curl",
+        isCustom: false,
+        defaultLoggingType: ExerciseLoggingType.REPS,
+        availableLoggingTypes: [ExerciseLoggingType.REPS],
+        exerciseType: ExerciseType.WEIGHTS,
+        primaryMuscleGroup: MuscleGroup.BICEPS,
+        secondaryMuscleGroups: [],
+      ).toJson());
     });
 
     return database;

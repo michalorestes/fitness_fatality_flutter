@@ -76,18 +76,18 @@ class _CreateNewWorkoutPageState extends State<CreateNewWorkoutPage> {
   }
 
   Widget _buildWorkoutTypeSection() {
-    List<String> types = [WorkoutTypes.WEIGHTS, WorkoutTypes.CARDIO];
+    List<WorkoutTypes> types = [WorkoutTypes.WEIGHTS, WorkoutTypes.CARDIO];
     List<Widget> widgets = [];
 
     widgets.add(Text("Chose workout type:"));
     widgets.add(SizedBox(height: _sectionTitleSpacing));
 
-    types.forEach((String workoutType) => {
-          widgets.add(RadioListTile<String>(
-            title: Text(workoutType),
+    types.forEach((WorkoutTypes workoutType) => {
+          widgets.add(RadioListTile<WorkoutTypes>(
+            title: Text(workoutType.toString().split(".")[1]),
             groupValue: widget._createdWorkout.type,
             value: workoutType,
-            onChanged: (String value) {
+            onChanged: (WorkoutTypes value) {
               setState(() {
                 widget._createdWorkout.type = value;
               });

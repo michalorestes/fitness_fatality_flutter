@@ -76,7 +76,7 @@ class _WorkoutsList extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 32 == index ? 72 : 0),
       child: WorkoutListTile(
         name: workout.name,
-        type: workout.type,
+        type: workout.workoutType,
         icon: imageAsset,
         onTap: () {
           Routing.navigate(context, WorkoutDetailsPage(workout));
