@@ -1,59 +1,21 @@
 import 'package:fitness_fatality_flutter/data/entities/exercise/exercise.dart';
-import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/reps_logging.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 import 'package:fitness_fatality_flutter/routing/routing.dart';
 import 'package:fitness_fatality_flutter/ui/exercises/exerciseDatabase/add_exercise_page.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/logging_page.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/workout_details/bloc/workout_details_bloc.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/workout_details/bloc/workout_details_events.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/workout_details/bloc/workout_details_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WorkoutDetailsPage extends StatelessWidget {
-  final Workout _workout;
-
-  final List<WorkoutExercise> workoutExercises = [
-    WorkoutExercise(
-        exercise: Exercise(name: "Push Ups"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 3, "reps": 12})),
-    WorkoutExercise(
-        exercise: Exercise(name: "Crunches"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 2, "reps": 12})),
-    WorkoutExercise(
-        exercise: Exercise(name: "Press ups"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
-    WorkoutExercise(
-        exercise: Exercise(name: "Biceps curl"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
-    WorkoutExercise(
-        exercise: Exercise(name: "Pull ups"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
-    WorkoutExercise(
-        exercise: Exercise(name: "Push Ups"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
-    WorkoutExercise(
-        exercise: Exercise(name: "Crunches"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
-    WorkoutExercise(
-        exercise: Exercise(name: "Press ups"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
-    WorkoutExercise(
-        exercise: Exercise(name: "Biceps curl"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
-    WorkoutExercise(
-        exercise: Exercise(name: "Pull ups"),
-        workoutId: 1,
-        loggingParameters: RepsLogging({"sets": 1, "reps": 12})),
-  ];
-
-  WorkoutDetailsPage(this._workout);
+  final WorkoutDetailsBloc bloc = WorkoutDetailsBloc();
+  WorkoutDetailsPage(Workout workout) {
+    bloc.dispatch(OnInitialiseWorkoutDetails(workout));
+    bloc.dispatch(OnLoadWorkoutExercises());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,44 +23,19 @@ class WorkoutDetailsPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Text(_workout.name, style: TextStyle(color: Colors.black),),
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.black,), onPressed: () => Navigator.pop(context),),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 5,
-        color: Theme.of(context).primaryColor,
-        child: Padding(
-          padding: EdgeInsets.only(left: 8),
-          child: Container(
-            height: 56,
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    Routing.navigate(context, AddExercisePage());
-                  },
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(context: context, builder: (context) {
-                      return Container(height: 400,child: Center(child: Text("COMMING SOON!")));
-                    });
-                  },
-                  icon: Icon(
-                    Icons.edit_attributes,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+        title: Text(
+          bloc.currentState.workoutDetails.name,
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
           ),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
+      bottomNavigationBar: buildBottomAppBar(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.play_arrow),
@@ -108,34 +45,106 @@ class WorkoutDetailsPage extends StatelessWidget {
           Routing.navigate(
             context,
             LoggingPage(
-              workout: _workout,
-              exercises: workoutExercises,
+              workout: bloc.currentState.workoutDetails,
+              exercises: bloc.currentState.exercises,
             ),
           );
         },
       ),
-      body: ListView.builder(
-        itemBuilder: buildSliverListItem,
-        itemCount: workoutExercises.length,
+      body: BlocBuilder(
+        bloc: bloc,
+        builder: (BuildContext context, WorkoutDetailsState state) {
+          return _MyWorkoutExercisesList(workoutExercises: state.exercises,);
+        },
       ),
     );
   }
 
-  Widget buildSliverListItem(BuildContext context, int index) {
+  Widget buildBottomAppBar(BuildContext context) {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      notchMargin: 5,
+      color: Theme.of(context).primaryColor,
+      child: Padding(
+        padding: EdgeInsets.only(left: 8),
+        child: Container(
+          height: 56,
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                onPressed: () {
+                  Routing.navigate(context, AddExercisePage(bloc.currentState.workoutDetails.id)).then((var val) {
+                    bloc.dispatch(OnLoadWorkoutExercises());
+                  });
+                },
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        height: 400,
+                        child: Center(
+                          child: Text("COMMING SOON!"),
+                        ),
+                      );
+                    },
+                  );
+                },
+                icon: Icon(
+                  Icons.edit_attributes,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MyWorkoutExercisesList extends StatelessWidget {
+
+  final List<WorkoutExercise> workoutExercises;
+
+  _MyWorkoutExercisesList({this.workoutExercises});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: buildListItem,
+      itemCount: workoutExercises.length,
+    );
+  }
+
+  Widget buildListItem(BuildContext context, int index) {
     Exercise exercise = workoutExercises[index].exercise;
     return Center(
       child: ListTile(
         title: Text(exercise.name),
-        subtitle: Text(workoutExercises[index].loggingParameters.toString()),
+        subtitle: Text(workoutExercises[index].loggingTarget.toString()),
         leading: Image.asset(
           exercise.getIconAsset(),
           height: 32,
           width: 32,
         ),
         onTap: () {
-          showDialog(context: context, builder: (BuildContext context) => AlertDialog(title: Text("ssdsd"), content: Text("Comming Soon!"),));
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: Text("ssdsd"),
+              content: Text("Comming Soon!"),
+            ),
+          );
         },
       ),
     );
   }
+
 }

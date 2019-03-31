@@ -1,5 +1,5 @@
 import 'package:fitness_fatality_flutter/data/entities/logs/exercise_log.dart';
-import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/logging_parameters_abstract.dart';
+import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/logging_target_abstract.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 
@@ -12,7 +12,7 @@ class BlocState {
   final int currentExerciseIndex;
   final int currentSetIndex;
   ExerciseLog currentLog;
-  LoggingParametersAbstract currentLogging;
+  LoggingTargetAbstract currentLogging;
 
   BlocState({
     this.currentContainer,
@@ -22,7 +22,7 @@ class BlocState {
     this.currentSetIndex,
     this.currentLog,
   }) {
-    this.currentLogging = exercises[currentExerciseIndex].loggingParameters;
+    this.currentLogging = exercises[currentExerciseIndex].loggingTarget;
   }
 
   factory BlocState.initial(
@@ -35,7 +35,7 @@ class BlocState {
         exercises: exercises,
         currentExerciseIndex: 0,
         currentSetIndex: 1,
-        currentLog: ExerciseLog(0, 0.0),
+        currentLog: ExerciseLog(numberOfReps: 0, liftedWeight: 0.0),
       );
 
   BlocState clone({

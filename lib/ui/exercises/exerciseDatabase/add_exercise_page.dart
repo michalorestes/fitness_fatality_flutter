@@ -1,4 +1,5 @@
 import 'package:fitness_fatality_flutter/routing/routing.dart';
+import 'package:fitness_fatality_flutter/ui/exercises/exerciseDatabase/bloc/bloc_events.dart';
 import 'package:fitness_fatality_flutter/ui/exercises/exerciseDatabase/bloc/exercise_bloc.dart';
 import 'package:fitness_fatality_flutter/ui/exercises/exerciseDatabase/bloc/exercise_state.dart';
 import 'package:fitness_fatality_flutter/ui/exercises/exerciseDatabase/create_custom_exercise.dart';
@@ -8,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AddExercisePage extends StatelessWidget {
   final ExerciseBloc bloc = ExerciseBloc();
 
-  AddExercisePage() {
-    bloc.dispatch(Events.INITIALISE_EXERCISES_DATA);
+  AddExercisePage(int workoutId) {
+    bloc.dispatch(OnInitialiseExerciseData(workoutId));
   }
 
   @override
@@ -20,7 +21,7 @@ class AddExercisePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => Routing.navigate(context, CreateCustomExercise()),       
+        onPressed: () => Routing.navigate(context, CreateCustomExercise()),
       ),
       body: BlocBuilder(
         bloc: bloc,
@@ -40,7 +41,14 @@ class AddExercisePage extends StatelessWidget {
     return ListTile(
       title: Text(bloc.currentState.exercises[index].name),
       subtitle: Text(bloc.currentState.exercises[index].primaryMuscle),
-      trailing: Icon(Icons.add),
+      trailing: IconButton(
+        icon: Icon(Icons.add),
+        onPressed: () => bloc.dispatch(
+              OnExerciseAddedToWorkout(
+                exerciseId: bloc.currentState.exercises[index].id,
+              ),
+            ),
+      ),
     );
   }
 }

@@ -73,7 +73,6 @@ class BlocComponent extends Bloc<BlocEvents, BlocState> {
       currentContainer: nextContainer,
       currentExerciseIndex: exerciseIndexes.currentExerciseIndex,
       currentSetIndex: exerciseIndexes.currentSet,
-      currentLog: ExerciseLog(0, 0.0),
     );
   }
 
@@ -88,9 +87,7 @@ class BlocComponent extends Bloc<BlocEvents, BlocState> {
   }
 
   void _storeLogs() {
-    exercises[currentState.currentExerciseIndex]
-        .logs
-        .add(currentState.currentLog);
+    //TODO need to update the way of string logs 
   }
 
   ExerciseIndexes _updateExerciseIndexes() {
@@ -122,8 +119,8 @@ class BlocComponent extends Bloc<BlocEvents, BlocState> {
 
   BlocState _updateReps(int newRepsValue) {
     ExerciseLog log = ExerciseLog(
-      newRepsValue,
-      currentState.currentLog.liftedWeight,
+      numberOfReps: newRepsValue,
+      liftedWeight: currentState.currentLog.liftedWeight,
     );
 
     return currentState.clone(currentLog: log);
@@ -131,8 +128,8 @@ class BlocComponent extends Bloc<BlocEvents, BlocState> {
 
   BlocState _updateLifetedWeight(double newWeightValue) {
     ExerciseLog log = ExerciseLog(
-      currentState.currentLog.numberOfReps,
-      newWeightValue,
+      numberOfReps: currentState.currentLog.numberOfReps,
+      liftedWeight: newWeightValue,
     );
 
     return currentState.clone(currentLog: log);

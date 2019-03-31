@@ -89,16 +89,10 @@ class CompletedExercisesContainerState
     );
   }
 
+  //TODO: Need to update how logs values are displayed
   ExpansionPanel _updateDisplayedSets(int index) {
     List<Text> setsWidget = List();
-    List<ExerciseLog> logs = bloc.currentState.exercises[index].logs;
-    for (int i = 0; i < logs.length; i++) {
-      setsWidget.add(
-        Text(
-            "Set ${i + 1}: ${logs[i].liftedWeight}kg | ${logs[i].numberOfReps} reps "),
-      );
-    }
-
+    
     Widget body;
     if (setsWidget.length == 0) {
       body = Text("No sets completed yet");
@@ -144,8 +138,7 @@ class CompletedExercisesContainerState
 
     int newOffset = 0;
     if (state.currentExerciseIndex != 0 &&
-        (state.currentContainer == Containers.CONTROLS &&
-            exercise.logs.length == 0)) {
+        (state.currentContainer == Containers.CONTROLS)) {
       newOffset += 57;
     }
 

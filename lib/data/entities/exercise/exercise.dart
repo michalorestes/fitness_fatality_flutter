@@ -1,7 +1,7 @@
 import 'package:fitness_fatality_flutter/data/database/database_provider.dart';
 
 enum ExerciseType { CARDIO, BODY_WEIGHT, WEIGHTS, MACHINES }
-enum ExerciseLoggingType { TIME, REPS, DURATION }
+enum LoggingMethod { TIME, REPS, DURATION }
 enum MuscleGroup {
   QUADRICEPS,
   HAMSTRINGS,
@@ -21,23 +21,24 @@ class Exercise {
   String name;
   ExerciseType exerciseType;
   MuscleGroup primaryMuscleGroup;
-  List<MuscleGroup> secondaryMuscleGroups; 
+  List<MuscleGroup> secondaryMuscleGroups;
   bool isCustom;
-  List<ExerciseLoggingType> availableLoggingTypes;
-  ExerciseLoggingType defaultLoggingType;
+  List<LoggingMethod> availableLoggingTypes;
+  LoggingMethod defaultLoggingType;
 
   String get type => exerciseType.toString().split(".")[1];
   String get primaryMuscle => primaryMuscleGroup.toString().split(".")[1];
 
-  Exercise(
-      {this.id,
-      this.name,
-      this.exerciseType,
-      this.primaryMuscleGroup,
-      this.secondaryMuscleGroups,
-      this.isCustom,
-      this.availableLoggingTypes,
-      this.defaultLoggingType});
+  Exercise({
+    this.id,
+    this.name,
+    this.exerciseType,
+    this.primaryMuscleGroup,
+    this.secondaryMuscleGroups,
+    this.isCustom,
+    this.availableLoggingTypes,
+    this.defaultLoggingType,
+  });
 
   String getIconAsset() {
     return "assets/sample_exercise_icon.png";
@@ -48,9 +49,14 @@ class Exercise {
       "name": name,
       "exerciseType": exerciseType.index,
       "primaryMuscleGroup": primaryMuscleGroup.index,
-      "secondaryMuscleGroups": secondaryMuscleGroups.map((dynamic group) => group.index).toList().join(","),
+      "secondaryMuscleGroups": secondaryMuscleGroups
+          .map((dynamic group) => group.index)
+          .toList()
+          .join(","),
       "isCustom": isCustom,
-      "availableLoggingTypes": availableLoggingTypes.map((ExerciseLoggingType type) => type.index).join(","),
+      "availableLoggingTypes": availableLoggingTypes
+          .map((LoggingMethod type) => type.index)
+          .join(","),
       "defaultLoggingType": defaultLoggingType.index
     };
 
@@ -58,7 +64,7 @@ class Exercise {
       map['id'] = id;
     }
 
-    return map; 
+    return map;
   }
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
@@ -68,30 +74,48 @@ class Exercise {
       name: json['name'],
       exerciseType: ExerciseType.values[int.parse(json['exerciseType'])],
       primaryMuscleGroup: MuscleGroup.values[json['primaryMuscleGroup']],
-      secondaryMuscleGroups: json['secondaryMuscleGroups'] != "" ? json['secondaryMuscleGroups'].toString().split(",").map((dynamic group) => MuscleGroup.values[int.parse(group)]).toList() : [],
+      secondaryMuscleGroups: json['secondaryMuscleGroups'] != ""
+          ? json['secondaryMuscleGroups']
+              .toString()
+              .split(",")
+              .map((dynamic group) => MuscleGroup.values[int.parse(group)])
+              .toList()
+          : [],
       isCustom: json['isCustom'] == 1,
-      defaultLoggingType: ExerciseLoggingType.values[int.parse(json['defaultLoggingType'])],
+      defaultLoggingType:
+          LoggingMethod.values[int.parse(json['defaultLoggingType'])],
       availableLoggingTypes: json['availableLoggingTypes']
-                              .toString()
-                              .split(",")
-                              .map((dynamic type) => ExerciseLoggingType.values[int.parse(type)])
-                              .toList(),
+          .toString()
+          .split(",")
+          .map((dynamic type) => LoggingMethod.values[int.parse(type)])
+          .toList(),
     );
   }
 
   static Future<List<Exercise>> fetchAllExercises() async {
-    final db = await DatabaseProvider.database; 
+    final db = await DatabaseProvider.database;
     var result = await db.rawQuery("SELECT * FROM exercise");
-    
-    List<Exercise> data = List(); 
-    result.forEach((Map<String, dynamic> row) => data.add(Exercise.fromJson(row))); 
-    
-    return data; 
+
+    List<Exercise> data = List();
+    result.forEach(
+        (Map<String, dynamic> row) => data.add(Exercise.fromJson(row)));
+
+    return data;
+  }
+
+static Future<Exercise> fetchExerciseById(int exerciseId) async {
+    final db = await DatabaseProvider.database;
+    var result = await db.query("exercise", where: "id = ?", whereArgs: [exerciseId]);
+
+    if(result.length > 0) {
+      return Exercise.fromJson(result[0]);
+    }
+
+    return null;
   }
 
   Future<int> save() async {
-    final db = await DatabaseProvider.database; 
-
+    final db = await DatabaseProvider.database;
     return db.insert("exercise", this.toJson());
   }
 }
