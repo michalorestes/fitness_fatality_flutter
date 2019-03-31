@@ -61,7 +61,7 @@ class Exercise {
     return map; 
   }
 
-  static Exercise fromJson(Map<String, dynamic> json) {
+  factory Exercise.fromJson(Map<String, dynamic> json) {
     print(json['muscleGroups']);
     return Exercise(
       id: json['id'],
@@ -82,7 +82,7 @@ class Exercise {
   static Future<List<Exercise>> fetchAllExercises() async {
     final db = await DatabaseProvider.database; 
     var result = await db.rawQuery("SELECT * FROM exercise");
-    print(result);
+    
     List<Exercise> data = List(); 
     result.forEach((Map<String, dynamic> row) => data.add(Exercise.fromJson(row))); 
     
@@ -91,8 +91,7 @@ class Exercise {
 
   Future<int> save() async {
     final db = await DatabaseProvider.database; 
-    var j = this.toJson(); 
-    print(j);
+
     return db.insert("exercise", this.toJson());
   }
 }

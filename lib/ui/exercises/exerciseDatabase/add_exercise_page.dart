@@ -1,5 +1,7 @@
+import 'package:fitness_fatality_flutter/routing/routing.dart';
 import 'package:fitness_fatality_flutter/ui/exercises/exerciseDatabase/bloc/exercise_bloc.dart';
 import 'package:fitness_fatality_flutter/ui/exercises/exerciseDatabase/bloc/exercise_state.dart';
+import 'package:fitness_fatality_flutter/ui/exercises/exerciseDatabase/create_custom_exercise.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +17,10 @@ class AddExercisePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Exercises to workout"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => Routing.navigate(context, CreateCustomExercise()),       
       ),
       body: BlocBuilder(
         bloc: bloc,

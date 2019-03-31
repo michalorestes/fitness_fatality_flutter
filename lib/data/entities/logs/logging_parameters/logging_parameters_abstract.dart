@@ -14,5 +14,4 @@ abstract class LoggingParametersAbstract {
 
     return string;
   }
-
 }
