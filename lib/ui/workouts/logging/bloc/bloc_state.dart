@@ -1,5 +1,5 @@
 import 'package:fitness_fatality_flutter/data/entities/logs/exercise_log.dart';
-import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/logging_target_abstract.dart';
+import 'package:fitness_fatality_flutter/data/entities/logs/logging_target_abstract.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 
@@ -12,7 +12,7 @@ class BlocState {
   final int currentExerciseIndex;
   final int currentSetIndex;
   ExerciseLog currentLog;
-  LoggingTargetAbstract currentLogging;
+  LoggingTarget currentLogging;
 
   BlocState({
     this.currentContainer,

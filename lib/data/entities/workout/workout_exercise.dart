@@ -1,6 +1,6 @@
 import 'package:fitness_fatality_flutter/data/database/database_provider.dart';
 import 'package:fitness_fatality_flutter/data/entities/exercise/exercise.dart';
-import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/logging_target_abstract.dart';
+import 'package:fitness_fatality_flutter/data/entities/logs/logging_target_abstract.dart';
 import 'package:sqflite/sqflite.dart';
 
 class WorkoutExercise {
@@ -10,7 +10,7 @@ class WorkoutExercise {
   int sequenceId;
   Exercise exercise;
   LoggingMethod loggingMethod;
-  LoggingTargetAbstract loggingTarget;
+  LoggingTarget loggingTarget;
 
   WorkoutExercise({
     this.id,
@@ -28,7 +28,7 @@ class WorkoutExercise {
       "exerciseId": exerciseId,
       "sequenceId": sequenceId,
       "loggingMethod": loggingMethod.index,
-      "loggingTarget": loggingTarget.toJson(),
+      "loggingTarget": loggingTarget.parametersAsJsonString,
     };
 
     if (id != null) {
@@ -40,12 +40,13 @@ class WorkoutExercise {
 
   factory WorkoutExercise.fromJson(Map<String, dynamic> json) {
     return WorkoutExercise(
-        id: json['id'],
-        workoutId: json['workoutId'],
-        exerciseId: json['exerciseId'],
-        sequenceId: json['sqeuenceId'],
-        loggingMethod: LoggingMethod.values[json['loggingMethod']],
-        loggingTarget: LoggingTargetAbstract.fromJson(json['loggingTarget']));
+      id: json['id'],
+      workoutId: json['workoutId'],
+      exerciseId: json['exerciseId'],
+      sequenceId: json['sqeuenceId'],
+      loggingMethod: LoggingMethod.values[json['loggingMethod']],
+      loggingTarget: LoggingTarget(json['loggingTarget']),
+    );
   }
 
   Future<int> save() async {
@@ -57,7 +58,7 @@ class WorkoutExercise {
     final Database db = await DatabaseProvider.database;
     List<Map<String, dynamic>> data = await db.query("workout_exercise");
 
-    if(data.length > 0) {
+    if (data.length > 0) {
       return data.map((dynamic row) => WorkoutExercise.fromJson(row)).toList();
     }
 
@@ -73,14 +74,14 @@ class WorkoutExercise {
     );
 
     if (data.length > 0) {
-      List<WorkoutExercise> result = 
-        data.map((dynamic row) => WorkoutExercise.fromJson(row)).toList();
+      List<WorkoutExercise> result =
+          data.map((dynamic row) => WorkoutExercise.fromJson(row)).toList();
 
-      for(WorkoutExercise we in result) {
+      for (WorkoutExercise we in result) {
         we.exercise = await Exercise.fetchExerciseById(we.exerciseId);
       }
 
-      return result; 
+      return result;
     }
 
     return null;

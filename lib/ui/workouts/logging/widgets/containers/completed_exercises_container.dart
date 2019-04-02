@@ -1,4 +1,3 @@
-import 'package:fitness_fatality_flutter/data/entities/logs/exercise_log.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/bloc/bloc_component.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/bloc/bloc_state.dart';

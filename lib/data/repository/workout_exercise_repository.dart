@@ -1,4 +1,4 @@
-import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/reps_logging.dart';
+import 'package:fitness_fatality_flutter/data/entities/logs/logging_target_abstract.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 
 class WorkoutExerciseRepository {
@@ -6,7 +6,7 @@ class WorkoutExerciseRepository {
     return WorkoutExercise(
       exerciseId: exerciseId, 
       workoutId: workoutId,
-      loggingTarget: RepsLogging({"sets": 3, "reps": 8}),
+      loggingTarget: LoggingTarget({"sets": 3, "reps": 8}),
     ).save();
   }
 

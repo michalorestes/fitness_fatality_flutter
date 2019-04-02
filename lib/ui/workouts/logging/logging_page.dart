@@ -1,4 +1,4 @@
-import 'package:fitness_fatality_flutter/data/entities/logs/logging_parameters/logging_target_abstract.dart';
+import 'package:fitness_fatality_flutter/data/entities/logs/logging_target_abstract.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout.dart';
 import 'package:fitness_fatality_flutter/data/entities/workout/workout_exercise.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/logging/bloc/bloc_component.dart';
@@ -24,7 +24,7 @@ class LoggingPage extends StatefulWidget {
 class LoggingPageState extends State<LoggingPage> {
   Widget containerWidget;
   WorkoutExercise currentExercise;
-  LoggingTargetAbstract currentLogging;
+  LoggingTarget currentLogging;
 
   BlocComponent _bloc;
 

@@ -109,7 +109,7 @@ class BlocComponent extends Bloc<BlocEvents, BlocState> {
 
   bool _isNextSetAvailable() {
     return (currentState.currentSetIndex <
-        currentState.currentLogging.getParameters()['sets']);
+        currentState.currentLogging.parametersMap['sets']);
   }
 
   bool _isNextExerciseAvailable() {
