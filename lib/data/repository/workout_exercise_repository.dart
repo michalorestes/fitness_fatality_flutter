@@ -15,9 +15,6 @@ class WorkoutExerciseRepository {
   }
 
   Future<List<WorkoutExercise>> fetchByWorkoutId(int workoutId) async {
-
-//    var a = await WorkoutExercise.fetchAllWorkoutExercises();
-
     return  await WorkoutExercise.fetchByWorkoutId(workoutId);
   }
 }

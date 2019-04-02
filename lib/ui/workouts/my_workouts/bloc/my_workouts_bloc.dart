@@ -10,14 +10,14 @@ class MyWorkoutsBloc extends Bloc<Events, MyWorkoutsState> {
 
   @override
   Stream<MyWorkoutsState> mapEventToState(
-      MyWorkoutsState currentState, Events event) async* {
+    MyWorkoutsState currentState,
+    Events event,
+  ) async* {
     switch (event) {
       case Events.LOAD_WORKOUTS:
       case Events.RELOAD_WORKOUTS:
-       List<Workout> s = await Workout.getAllWorkouts();
-        yield MyWorkoutsState(
-          workouts: s ?? List()
-        );
+        List<Workout> workouts = await Workout.getAllWorkouts();
+        yield MyWorkoutsState(workouts: workouts ?? List());
         break;
       default:
     }

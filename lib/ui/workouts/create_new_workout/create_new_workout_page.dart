@@ -96,8 +96,10 @@ class _CreateNewWorkoutPageState extends State<CreateNewWorkoutPage> {
         });
 
     return Padding(
-      padding:
-          const EdgeInsets.only(top: _sectionPadding, bottom: _sectionPadding),
+      padding: EdgeInsets.only(
+        top: _sectionPadding,
+        bottom: _sectionPadding,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: widgets,
@@ -122,29 +124,34 @@ class _CreateNewWorkoutPageState extends State<CreateNewWorkoutPage> {
         label: Text(v),
         selected: widget._createdWorkout.schedule.contains(v),
         onSelected: (bool isSelected) {
-          setState(() {
-            if (isSelected) {
-              widget._createdWorkout.schedule.add(v);
-            } else {
-              widget._createdWorkout.schedule
-                  .removeWhere((String element) => element == v);
-            }
-          });
+          setState(
+            () {
+              if (isSelected) {
+                widget._createdWorkout.schedule.add(v);
+              } else {
+                widget._createdWorkout.schedule
+                    .removeWhere((String element) => element == v);
+              }
+            },
+          );
         },
       ));
     });
 
     return Padding(
-      padding:
-          const EdgeInsets.only(top: _sectionPadding, bottom: _sectionPadding),
+      padding: EdgeInsets.only(
+        top: _sectionPadding,
+        bottom: _sectionPadding,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text("Chose workout schedule:"),
           SizedBox(height: _sectionTitleSpacing),
           Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Wrap(spacing: 4, children: chips)),
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Wrap(spacing: 4, children: chips),
+          ),
         ],
       ),
     );

@@ -11,10 +11,12 @@ class WorkoutDetailsBloc
 
   @override
   WorkoutDetailsState get initialState => WorkoutDetailsState.initial();
-  
+
   @override
   Stream<WorkoutDetailsState> mapEventToState(
-      WorkoutDetailsState currentState, WorkoutDetailsEvents event) async* {
+    WorkoutDetailsState currentState,
+    WorkoutDetailsEvents event,
+  ) async* {
     if (event is OnInitialiseWorkoutDetails) {
       yield WorkoutDetailsState(
         workoutDetails: event.workout,
@@ -22,8 +24,11 @@ class WorkoutDetailsBloc
       );
     }
 
-    if(event is OnLoadWorkoutExercises) {
-      List<WorkoutExercise> data = await workoutExerciseRepository.fetchByWorkoutId(currentState.workoutDetails.id) ?? List<WorkoutExercise>();
+    if (event is OnLoadWorkoutExercises) {
+      List<WorkoutExercise> data = await workoutExerciseRepository
+              .fetchByWorkoutId(currentState.workoutDetails.id) ??
+          List<WorkoutExercise>();
+          
       yield WorkoutDetailsState(
         workoutDetails: currentState.workoutDetails,
         exercises: data,

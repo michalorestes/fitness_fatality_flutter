@@ -21,18 +21,8 @@ class WorkoutDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
         title: Text(
           bloc.currentState.workoutDetails.name,
-          style: TextStyle(color: Colors.black),
-        ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () => Navigator.pop(context),
         ),
       ),
       bottomNavigationBar: buildBottomAppBar(context),
