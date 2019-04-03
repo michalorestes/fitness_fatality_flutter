@@ -58,10 +58,13 @@ class _WorkoutsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: workouts.length,
-        itemBuilder: (BuildContext context, int index) =>
-            _buildListItem(context, index));
+    return Container(
+      color: Colors.grey[200],
+      child: ListView.builder(
+          itemCount: workouts.length,
+          itemBuilder: (BuildContext context, int index) =>
+              _buildListItem(context, index)),
+    );
   }
 
   Widget _buildListItem(BuildContext context, int index) {
