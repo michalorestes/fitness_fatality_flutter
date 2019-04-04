@@ -28,6 +28,7 @@ class Exercise {
 
   String get type => exerciseType.toString().split(".")[1];
   String get primaryMuscle => primaryMuscleGroup.toString().split(".")[1];
+  String get secondaryMuscle => secondaryMuscleGroups.map((MuscleGroup mg) => mg.toString().split(".")[1]).toList().join(", ");
 
   Exercise({
     this.id,

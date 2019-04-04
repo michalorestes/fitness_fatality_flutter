@@ -7,11 +7,13 @@ import 'package:fitness_fatality_flutter/ui/workouts/logging/logging_page.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/workout_details/bloc/workout_details_bloc.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/workout_details/bloc/workout_details_events.dart';
 import 'package:fitness_fatality_flutter/ui/workouts/workout_details/bloc/workout_details_state.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/workout_details/widgets/modals/workout_exercise_modal/workout_exercise_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WorkoutDetailsPage extends StatelessWidget {
   final WorkoutDetailsBloc bloc = WorkoutDetailsBloc();
+
   WorkoutDetailsPage(Workout workout) {
     bloc.dispatch(OnInitialiseWorkoutDetails(workout));
     bloc.dispatch(OnLoadWorkoutExercises());
@@ -44,7 +46,9 @@ class WorkoutDetailsPage extends StatelessWidget {
       body: BlocBuilder(
         bloc: bloc,
         builder: (BuildContext context, WorkoutDetailsState state) {
-          return _MyWorkoutExercisesList(workoutExercises: state.exercises,);
+          return _MyWorkoutExercisesList(
+            workoutExercises: state.exercises,
+          );
         },
       ),
     );
@@ -63,7 +67,10 @@ class WorkoutDetailsPage extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 onPressed: () {
-                  Routing.navigate(context, AddExercisePage(bloc.currentState.workoutDetails.id)).then((var val) {
+                  Routing.navigate(
+                    context,
+                    AddExercisePage(bloc.currentState.workoutDetails.id),
+                  ).then((var val) {
                     bloc.dispatch(OnLoadWorkoutExercises());
                   });
                 },
@@ -73,19 +80,7 @@ class WorkoutDetailsPage extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return Container(
-                        height: 400,
-                        child: Center(
-                          child: Text("COMMING SOON!"),
-                        ),
-                      );
-                    },
-                  );
-                },
+                onPressed: () {},
                 icon: Icon(
                   Icons.edit_attributes,
                   color: Colors.white,
@@ -124,17 +119,17 @@ class _MyWorkoutExercisesList extends StatelessWidget {
           height: 32,
           width: 32,
         ),
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: Text("ssdsd"),
-              content: Text("Comming Soon!"),
-            ),
-          );
-        },
+        onTap: () => showModal(context, index),
       ),
     );
   }
 
+  Future showModal(BuildContext context, int index) => showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return ExerciseInfoModal(
+        workoutExercises[index],
+      );
+    },
+  );
 }
