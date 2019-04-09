@@ -18,9 +18,13 @@ class WorkoutDetailsBloc
     WorkoutDetailsEvents event,
   ) async* {
     if (event is OnInitialiseWorkoutDetails) {
-      yield WorkoutDetailsState(
-        workoutDetails: event.workout,
-        exercises: List(),
+      yield currentState.updateState(
+        WorkoutDetailsState(
+          workoutDetails: event.workout,
+          exercises: List(),
+          selectedWorkoutExercise: currentState.selectedWorkoutExercise,
+          isSnackBarDisplayed: false,
+        ),
       );
     }
 
@@ -28,11 +32,54 @@ class WorkoutDetailsBloc
       List<WorkoutExercise> data = await workoutExerciseRepository
               .fetchByWorkoutId(currentState.workoutDetails.id) ??
           List<WorkoutExercise>();
-          
+
       yield WorkoutDetailsState(
-        workoutDetails: currentState.workoutDetails,
-        exercises: data,
+          workoutDetails: currentState.workoutDetails,
+          exercises: data,
+          selectedWorkoutExercise: currentState.selectedWorkoutExercise,
+          isSnackBarDisplayed: false,
+          );
+    }
+  
+    if (event is OnSelectWorkoutExercise) {
+      yield currentState.updateState(
+        WorkoutDetailsState(
+          workoutDetails: currentState.workoutDetails,
+          exercises: currentState.exercises,
+          selectedWorkoutExercise: event.workoutExercise,
+        ),
       );
+    }
+
+    if (event is OnUpdateWorkoutExercise) {
+      WorkoutExercise exercise = event.workoutExercise;
+
+      int numberOfChanges = await exercise.update();
+      
+      List<WorkoutExercise> data = await workoutExerciseRepository
+              .fetchByWorkoutId(currentState.workoutDetails.id) ??
+          List<WorkoutExercise>();
+
+      yield currentState.updateState(
+        WorkoutDetailsState(
+          workoutDetails: currentState.workoutDetails,
+          selectedWorkoutExercise: exercise,
+          exercises: data,
+          isSnackBarDisplayed: (numberOfChanges > 0),
+        ),
+      );
+    }
+
+    if (event is OnRepsChange) {
+      WorkoutExercise workoutExercise =
+          currentState.selectedWorkoutExercise.clone();
+      workoutExercise.loggingTarget.parametersMap['reps'] = event.newRepsNumber;
+
+      yield currentState.updateState(WorkoutDetailsState(
+        workoutDetails: currentState.workoutDetails,
+        selectedWorkoutExercise: workoutExercise,
+        exercises: currentState.exercises,
+      ));
     }
   }
 }

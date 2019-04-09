@@ -1,5 +1,8 @@
+import 'package:fitness_fatality_flutter/ui/workouts/workout_details/bloc/workout_details_bloc.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/workout_details/bloc/workout_details_events.dart';
+import 'package:fitness_fatality_flutter/ui/workouts/workout_details/bloc/workout_details_state.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ModalControls extends StatefulWidget {
   String dropdownValue = 'Reps';
@@ -12,17 +15,28 @@ class ModalControls extends StatefulWidget {
 }
 
 class __ModalControlsState extends State<ModalControls> {
+  WorkoutDetailsBloc bloc;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(8),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          _buildDropDown(),
-          _buildControls(),
-        ],
-      ),
+    if (bloc == null) {
+      bloc = BlocProvider.of<WorkoutDetailsBloc>(context);
+    }
+
+    return BlocBuilder(
+      bloc: bloc,
+      builder: (BuildContext context, WorkoutDetailsState state) {
+        return Container(
+          margin: EdgeInsets.all(8),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              _buildDropDown(),
+              _buildControls(state),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -45,17 +59,20 @@ class __ModalControlsState extends State<ModalControls> {
     );
   }
 
-  Widget _buildControls() {
+  Widget _buildControls(WorkoutDetailsState state) {
     return Column(
       children: <Widget>[
-        Text("Reps: ${widget.sliderReps}"),
+        Text(
+            "Reps: ${state.selectedWorkoutExercise.loggingTarget.parametersMap['reps']}"),
         Slider(
           min: 0,
           max: 30,
-          value: widget.sliderReps.toDouble(),
-          onChanged: (double d) {
+          value: state
+              .selectedWorkoutExercise.loggingTarget.parametersMap['reps']
+              .toDouble(),
+          onChanged: (double newRepsNumber) {
             setState(() {
-              widget.sliderReps = d.toInt();
+              bloc.dispatch(OnRepsChange(newRepsNumber));
             });
           },
         ),
@@ -81,6 +98,18 @@ class __ModalControlsState extends State<ModalControls> {
             });
           },
         ),
+        ButtonTheme(
+          minWidth: double.infinity,
+          textTheme: ButtonTextTheme.primary,
+          child: RaisedButton(
+            onPressed: () {
+              bloc.dispatch(OnUpdateWorkoutExercise(
+                  workoutExercise: state.selectedWorkoutExercise,),);
+                  Navigator.pop(context);
+            },
+            child: Text("Save"),
+          ),
+        )
       ],
     );
   }

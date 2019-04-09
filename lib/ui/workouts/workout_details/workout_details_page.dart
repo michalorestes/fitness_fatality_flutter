@@ -11,20 +11,29 @@ import 'package:fitness_fatality_flutter/ui/workouts/workout_details/widgets/mod
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WorkoutDetailsPage extends StatelessWidget {
+class WorkoutDetailsPage extends StatefulWidget {
   final WorkoutDetailsBloc bloc = WorkoutDetailsBloc();
-
   WorkoutDetailsPage(Workout workout) {
     bloc.dispatch(OnInitialiseWorkoutDetails(workout));
     bloc.dispatch(OnLoadWorkoutExercises());
   }
 
   @override
+  _WorkoutDetailsPageState createState() => _WorkoutDetailsPageState();
+}
+
+class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
+
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(
-          bloc.currentState.workoutDetails.name,
+          widget.bloc.currentState.workoutDetails.name,
         ),
       ),
       bottomNavigationBar: buildBottomAppBar(context),
@@ -33,23 +42,29 @@ class WorkoutDetailsPage extends StatelessWidget {
         child: Icon(Icons.play_arrow),
         backgroundColor: Colors.orange,
         elevation: 12,
-        onPressed: () {
-          Routing.navigate(
-            context,
-            LoggingPage(
-              workout: bloc.currentState.workoutDetails,
-              exercises: bloc.currentState.exercises,
+        onPressed: () => navigateToLoggingPage(context),
+      ),
+      body: BlocBuilder(
+        bloc: widget.bloc,
+        builder: (BuildContext context, WorkoutDetailsState state) {
+          return BlocProvider(
+            bloc: widget.bloc,
+            child: ListView.builder(
+              itemBuilder: buildListItem,
+              itemCount: widget.bloc.currentState.exercises.length,
             ),
           );
         },
       ),
-      body: BlocBuilder(
-        bloc: bloc,
-        builder: (BuildContext context, WorkoutDetailsState state) {
-          return _MyWorkoutExercisesList(
-            workoutExercises: state.exercises,
-          );
-        },
+    );
+  }
+
+  void navigateToLoggingPage(BuildContext context) {
+    Routing.navigate(
+      context,
+      LoggingPage(
+        workout: widget.bloc.currentState.workoutDetails,
+        exercises: widget.bloc.currentState.exercises,
       ),
     );
   }
@@ -69,9 +84,9 @@ class WorkoutDetailsPage extends StatelessWidget {
                 onPressed: () {
                   Routing.navigate(
                     context,
-                    AddExercisePage(bloc.currentState.workoutDetails.id),
+                    AddExercisePage(widget.bloc.currentState.workoutDetails.id),
                   ).then((var val) {
-                    bloc.dispatch(OnLoadWorkoutExercises());
+                    widget.bloc.dispatch(OnLoadWorkoutExercises());
                   });
                 },
                 icon: Icon(
@@ -92,44 +107,39 @@ class WorkoutDetailsPage extends StatelessWidget {
       ),
     );
   }
-}
-
-class _MyWorkoutExercisesList extends StatelessWidget {
-
-  final List<WorkoutExercise> workoutExercises;
-
-  _MyWorkoutExercisesList({this.workoutExercises});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: buildListItem,
-      itemCount: workoutExercises.length,
-    );
-  }
 
   Widget buildListItem(BuildContext context, int index) {
-    Exercise exercise = workoutExercises[index].exercise;
+    Exercise exercise = widget.bloc.currentState.exercises[index].exercise;
     return Center(
       child: ListTile(
         title: Text(exercise.name),
-        subtitle: Text(workoutExercises[index].loggingTarget.toString()),
+        subtitle: Text(
+            widget.bloc.currentState.exercises[index].loggingTarget.toString()),
         leading: Image.asset(
           exercise.getIconAsset(),
           height: 32,
           width: 32,
         ),
-        onTap: () => showModal(context, index),
+        onTap: () => _editWorkoutExercise(context, index),
       ),
     );
   }
 
-  Future showModal(BuildContext context, int index) => showModalBottomSheet(
-    context: context,
-    builder: (context) {
-      return ExerciseInfoModal(
-        workoutExercises[index],
+  void _editWorkoutExercise(BuildContext context, int index) {
+    widget.bloc.dispatch(OnSelectWorkoutExercise(
+        workoutExercise: widget.bloc.currentState.exercises[index]));
+    showModal(context).then((var val) {
+      scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Logging target has been updated"),));
+    });
+  }
+
+  Future showModal(BuildContext context) => showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return BlocProvider(
+            bloc: widget.bloc,
+            child: ExerciseInfoModal(),
+          );
+        },
       );
-    },
-  );
 }

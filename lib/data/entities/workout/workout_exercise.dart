@@ -54,6 +54,16 @@ class WorkoutExercise {
     return db.insert("workout_exercise", this.toJson());
   }
 
+  Future<int> update() async {
+    final db = await DatabaseProvider.database;
+    return db.update(
+      "workout_exercise",
+      this.toJson(),
+      where: "id = ?",
+      whereArgs: [this.id],
+    );
+  }
+
   static Future<List<WorkoutExercise>> fetchAllWorkoutExercises() async {
     final Database db = await DatabaseProvider.database;
     List<Map<String, dynamic>> data = await db.query("workout_exercise");
@@ -85,5 +95,17 @@ class WorkoutExercise {
     }
 
     return null;
+  }
+
+  WorkoutExercise clone() {
+    return WorkoutExercise(
+      id: id,
+      exercise: exercise,
+      exerciseId: exerciseId,
+      loggingMethod: loggingMethod,
+      loggingTarget: loggingTarget,
+      sequenceId: sequenceId,
+      workoutId: workoutId,
+    );
   }
 }
