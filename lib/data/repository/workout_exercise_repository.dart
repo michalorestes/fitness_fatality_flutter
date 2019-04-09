@@ -6,7 +6,7 @@ class WorkoutExerciseRepository {
     return WorkoutExercise(
       exerciseId: exerciseId, 
       workoutId: workoutId,
-      loggingTarget: LoggingTarget({"sets": 3, "reps": 8}),
+      loggingTarget: LoggingTarget({"sets": 3, "reps": 8, "rest": 0}),
     ).save();
   }
 

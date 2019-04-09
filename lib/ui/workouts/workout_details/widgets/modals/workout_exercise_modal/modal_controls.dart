@@ -72,29 +72,29 @@ class __ModalControlsState extends State<ModalControls> {
               .toDouble(),
           onChanged: (double newRepsNumber) {
             setState(() {
-              bloc.dispatch(OnRepsChange(newRepsNumber));
+              bloc.dispatch(OnRepsChange(newRepsNumber.toInt()));
             });
           },
         ),
-        Text("Sets: ${widget.sliderSets}"),
+        Text("Sets: ${state.selectedWorkoutExercise.loggingTarget.parametersMap['sets']}"),
         Slider(
           min: 0,
           max: 20,
-          value: widget.sliderSets.toDouble(),
-          onChanged: (double d) {
+          value: state.selectedWorkoutExercise.loggingTarget.parametersMap['sets'].toDouble(),
+          onChanged: (double newSetsValue) {
             setState(() {
-              widget.sliderSets = d.toInt();
+              bloc.dispatch(OnSetsChange(newSetsValue.toInt()));
             });
           },
         ),
-        Text("Rest Duration: ${widget.sliderRest}s"),
+        Text("Rest Duration: ${state.selectedWorkoutExercise.loggingTarget.parametersMap['rest']}s"),
         Slider(
           min: 0,
           max: 120,
-          value: widget.sliderRest.toDouble(),
-          onChanged: (double d) {
+          value: state.selectedWorkoutExercise.loggingTarget.parametersMap['rest'].toDouble(),
+          onChanged: (double newRestTime) {
             setState(() {
-              widget.sliderRest = d.toInt();
+              bloc.dispatch(OnRestChange(newRestTime.toInt()));
             });
           },
         ),

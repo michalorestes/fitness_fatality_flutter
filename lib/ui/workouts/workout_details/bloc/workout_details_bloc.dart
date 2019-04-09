@@ -81,5 +81,29 @@ class WorkoutDetailsBloc
         exercises: currentState.exercises,
       ));
     }
+
+    if (event is OnSetsChange) {
+      WorkoutExercise workoutExercise =
+          currentState.selectedWorkoutExercise.clone();
+      workoutExercise.loggingTarget.parametersMap['sets'] = event.newSetsNumber;
+
+      yield currentState.updateState(WorkoutDetailsState(
+        workoutDetails: currentState.workoutDetails,
+        selectedWorkoutExercise: workoutExercise,
+        exercises: currentState.exercises,
+      ));
+    }
+
+    if (event is OnRestChange) {
+      WorkoutExercise workoutExercise =
+          currentState.selectedWorkoutExercise.clone();
+      workoutExercise.loggingTarget.parametersMap['rest'] = event.newRestTime;
+
+      yield currentState.updateState(WorkoutDetailsState(
+        workoutDetails: currentState.workoutDetails,
+        selectedWorkoutExercise: workoutExercise,
+        exercises: currentState.exercises,
+      ));
+    }
   }
 }

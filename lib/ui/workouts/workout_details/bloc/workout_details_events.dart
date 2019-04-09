@@ -27,7 +27,16 @@ class OnSelectWorkoutExercise extends WorkoutDetailsEvents {
 }
 
 class OnRepsChange extends WorkoutDetailsEvents {
-  final double newRepsNumber;
-
+  final int newRepsNumber;
   OnRepsChange(this.newRepsNumber);
+}
+
+class OnSetsChange extends WorkoutDetailsEvents {
+  final int newSetsNumber;
+  OnSetsChange(this.newSetsNumber);
+}
+
+class OnRestChange extends WorkoutDetailsEvents {
+  final int newRestTime;
+  OnRestChange(this.newRestTime);
 }
